@@ -18,6 +18,7 @@
   "main": "lib/index.js",
   "license": "GPL-2.0",
   "type": "module",
+  "types": "types",
   "dependencies": {
     "alemon": "^1.4.0",
     "qq-guild-bot": "^2.9.5",
