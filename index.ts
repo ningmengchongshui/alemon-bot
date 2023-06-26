@@ -1,2 +1,2 @@
-import { createAlemon } from './src/alemon/index.js'
+import { createAlemon } from './src/index.js'
 createAlemon()
