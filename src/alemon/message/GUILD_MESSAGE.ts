@@ -65,7 +65,8 @@ export const guildMessges = async (e: Messagetype) => {
     e.isMaster = true
   }
 
-  e.isGroup = false
+  // 是群聊
+  e.isGroup = true
 
   /**
    * 发送本地图片

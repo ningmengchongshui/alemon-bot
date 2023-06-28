@@ -48,8 +48,8 @@ async function directMessage(e: Messagetype) {
   /* 屏蔽测回消息 */
   e.isRecall = false
 
-  /* 是私聊 */
-  e.isGroup = true
+  /* 是群聊 */
+  e.isGroup = false
 
   /* 机器人检查权限,如果机器人本身没权限,讲无法获取用户权限,也就是频道主也会没权限 */
   const BotPS = await channewlPermissions(e.msg.channel_id, robot.user.id)

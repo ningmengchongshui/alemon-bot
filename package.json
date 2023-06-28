@@ -1,6 +1,6 @@
 {
   "name": "alemon-qq",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "阿柠檬机器人",
   "scripts": {
     "app": "ts-node index.ts",
@@ -20,7 +20,7 @@
   "type": "module",
   "types": "types",
   "dependencies": {
-    "alemon": "1.4.1",
+    "alemon": "1.4.2",
     "prompts": "^2.4.2",
     "qq-guild-bot": "^2.9.5",
     "yaml": "^2.3.1"
