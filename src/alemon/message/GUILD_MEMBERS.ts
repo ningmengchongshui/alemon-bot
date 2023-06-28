@@ -108,7 +108,7 @@ export const GUILD_MEMBERS = () => {
     ): Promise<boolean> => {
       if (channel) {
         if (Buffer.isBuffer(msg)) {
-          if (e.isGroup) return false
+          if (!e.isGroup) return false
           try {
             return await e.postImage(msg)
           } catch (err) {
@@ -122,7 +122,7 @@ export const GUILD_MEMBERS = () => {
           ? msg
           : undefined
         if (Buffer.isBuffer(obj)) {
-          if (e.isGroup) return false
+          if (!e.isGroup) return false
           try {
             return await e.postImage(obj, content)
           } catch (err) {

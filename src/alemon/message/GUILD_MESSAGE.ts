@@ -75,7 +75,7 @@ export const guildMessges = async (e: Messagetype) => {
    * @returns
    */
   e.sendImage = async (file_image: any, content?: string): Promise<boolean> => {
-    if (e.isGroup) return false
+    if (!e.isGroup) return false
     return await sendImage(
       e.msg.channel_id,
       {
@@ -99,7 +99,7 @@ export const guildMessges = async (e: Messagetype) => {
    * @returns
    */
   e.postImage = async (file_image: string | Buffer | URL, content?: string): Promise<boolean> => {
-    if (e.isGroup) return false
+    if (!e.isGroup) return false
     return await postImage(
       e.msg.channel_id,
       {
@@ -126,7 +126,6 @@ export const guildMessges = async (e: Messagetype) => {
     obj?: object | Buffer
   ): Promise<boolean> => {
     if (Buffer.isBuffer(msg)) {
-      if (e.isGroup) return false
       try {
         return await e.postImage(msg)
       } catch (err) {
@@ -136,7 +135,6 @@ export const guildMessges = async (e: Messagetype) => {
     }
     const content = Array.isArray(msg) ? msg.join('') : typeof msg === 'string' ? msg : undefined
     if (Buffer.isBuffer(obj)) {
-      if (e.isGroup) return false
       try {
         return await e.postImage(obj, content)
       } catch (err) {
