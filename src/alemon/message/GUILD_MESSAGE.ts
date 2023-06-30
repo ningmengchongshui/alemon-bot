@@ -241,6 +241,6 @@ export const guildMessges = async (e: Messagetype) => {
   InstructionMatching(e).catch((err: any) => console.error(err))
 
   console.info(
-    `\n[${guilddata.name}][${e.msg.channel_id}] [${e.msg.author.username}]\n${e.msg.content}`
+    `\n[${e.msg.channel_id}] [${e.msg.author.username}]\n${e.msg.content}`
   )
 }

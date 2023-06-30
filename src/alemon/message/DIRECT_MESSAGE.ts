@@ -174,4 +174,8 @@ async function directMessage(e: Messagetype) {
 
   /* 消息处理 */
   InstructionMatching(e).catch((err: any) => console.error(err))
+
+  console.info(
+    `\n[${e.msg.channel_id}] [${e.msg.author.username}]\n${e.msg.content}`
+  )
 }
