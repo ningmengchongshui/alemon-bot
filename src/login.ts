@@ -108,7 +108,10 @@ export async function checkRobot(Dcf: string, Bcf: string, val?: number): Promis
         ],
         initial: 0 //默认部署
       }
-    ])
+    ]).catch(err => {
+      console.log(err)
+      process.exit()
+    })
 
     if (!appID || !token || !imputPwd || !inputBot || !imputDev) process.exit()
 

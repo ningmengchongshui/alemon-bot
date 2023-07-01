@@ -19,7 +19,14 @@ export async function createAlemon() {
   // 设置浏览器配置
   setLanchConfig(PuppeteerConfig)
   //  登录
-  global.cfg = await checkRobot(DefaultConfigLogin, ConfigLogin, process.argv[2] == 'login' ? 0 : 1)
+  global.cfg = await checkRobot(
+    DefaultConfigLogin,
+    ConfigLogin,
+    process.argv[2] == 'login' ? 0 : 1
+  ).catch(err => {
+    console.log(err)
+    process.exit()
+  })
   console.info('[HELLO] 欢迎使用Alemon-Bot')
   console.info('[DOCS] http://ningmengchongshui.gitee.io/lemonade')
   console.info('[GIT] https://github.com/ningmengchongshui/alemon-bot')

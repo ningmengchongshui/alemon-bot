@@ -146,6 +146,13 @@ export const GUILD_MEMBERS = () => {
     }
 
     //只匹配类型
-    typeMessage(e)
+    await typeMessage(e)
+      .then(() => {
+        console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+      })
+      .catch(err => {
+        console.log(err)
+        console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+      })
   })
 }

@@ -14,7 +14,7 @@ GUILD_MESSAGE_REACTIONS (1 << 10)
   - MESSAGE_REACTION_REMOVE // 为消息删除表情表态
  */
 export const GUILD_MESSAGE_REACTIONS = () => {
-  ws.on(AvailableIntentsEventsEnum.GUILD_MESSAGE_REACTIONS, (e: Messagetype) => {
+  ws.on(AvailableIntentsEventsEnum.GUILD_MESSAGE_REACTIONS, async (e: Messagetype) => {
     /* 事件匹配 */
     e.event = EType.GUILD_MESSAGE_REACTIONS
     if (new RegExp(/ADD$/).test(e.eventType)) {
@@ -23,7 +23,14 @@ export const GUILD_MESSAGE_REACTIONS = () => {
       e.eventType = EventType.DELETE
     }
     //只匹配类型
-    typeMessage(e)
+    await typeMessage(e)
+      .then(() => {
+        console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+      })
+      .catch(err => {
+        console.log(err)
+        console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+      })
   })
 }
 

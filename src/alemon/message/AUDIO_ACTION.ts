@@ -20,7 +20,7 @@ AUDIO_ACTION (1 << 29)
   - AUDIO_OFF_MIC           // 下麦时 delete
  */
 export const AUDIO_ACTION = () => {
-  ws.on(AvailableIntentsEventsEnum.AUDIO_ACTION, (e: Messagetype) => {
+  ws.on(AvailableIntentsEventsEnum.AUDIO_ACTION, async (e: Messagetype) => {
     /* 事件匹配 */
     if (new RegExp(/MIC$/).test(e.eventType)) {
       // 麦克风事件
@@ -44,6 +44,13 @@ export const AUDIO_ACTION = () => {
       }
     }
     //只匹配类型
-    typeMessage(e)
+    await typeMessage(e)
+      .then(() => {
+        console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+      })
+      .catch(err => {
+        console.log(err)
+        console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+      })
   })
 }

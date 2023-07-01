@@ -25,7 +25,15 @@ export const PUBLIC_GUILD_MESSAGES = () => {
       e.eventType = EventType.DELETE
       /* 测回消息：是 */
       e.isRecall = true
-      typeMessage(e)
+      //只匹配类型
+      await typeMessage(e)
+        .then(() => {
+          console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+        })
+        .catch(err => {
+          console.log(err)
+          console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+        })
     }
     if (new RegExp(/CREATE$/).test(e.eventType)) {
       /* 是否是撤回：不是 */

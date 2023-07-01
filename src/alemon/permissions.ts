@@ -9,7 +9,10 @@ export async function channewlPermissions(channel_id: any, id: any) {
   /* 自身机器人权限检测 */
   const authority: any = await client.channelPermissionsApi
     .channelPermissions(channel_id, id)
-    .catch((err: any) => {})
+    .catch(err => {
+      console.log(err)
+      return false
+    })
 
   /* 机器人没有权限 */
   if (!authority) {

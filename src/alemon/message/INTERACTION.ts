@@ -15,7 +15,7 @@ INTERACTION (1 << 26)
   - INTERACTION_CREATE     // 互动事件创建时
  */
 export const INTERACTION = () => {
-  ws.on(AvailableIntentsEventsEnum.INTERACTION, (e: Messagetype) => {
+  ws.on(AvailableIntentsEventsEnum.INTERACTION, async (e: Messagetype) => {
     /* 事件匹配 */
     e.event = EType.INTERACTION
     if (new RegExp(/CREATE$/).test(e.eventType)) {
@@ -24,6 +24,13 @@ export const INTERACTION = () => {
       e.eventType = EventType.DELETE
     }
     //只匹配类型
-    typeMessage(e)
+    await typeMessage(e)
+      .then(() => {
+        console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+      })
+      .catch(err => {
+        console.log(err)
+        console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+      })
   })
 }

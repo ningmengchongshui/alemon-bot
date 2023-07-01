@@ -27,11 +27,21 @@ export const DIRECT_MESSAGE = () => {
     if (new RegExp(/^DIRECT_MESSAGE_DELETE$/).test(e.eventType)) {
       e.eventType = EventType.DELETE
       e.isRecall = true
-      //只匹配类型函数
-      typeMessage(e)
+      //只匹配类型
+      await typeMessage(e)
+        .then(() => {
+          console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+        })
+        .catch(err => {
+          console.log(err)
+          console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+        })
       return
     }
-    await directMessage(e)
+    // 优化接口
+    await directMessage(e).catch(err => {
+      console.log(err)
+    })
     console.info(
       `\n[${e.msg.author.username}][${e.msg.author.id}][${e.isGroup}] ${
         e.msg.content ? e.msg.content : ''
@@ -173,9 +183,12 @@ async function directMessage(e: Messagetype) {
   e.cmd_msg = e.msg.content
 
   /* 消息处理 */
-  InstructionMatching(e).catch((err: any) => console.error(err))
-
-  console.info(
-    `\n[${e.msg.channel_id}] [${e.msg.author.username}]\n${e.msg.content}`
-  )
+  await InstructionMatching(e)
+    .then(() => {
+      console.info(`\n[${e.msg.channel_id}] [${e.msg.author.username}]\n${e.msg.content}${true}`)
+    })
+    .catch((err: any) => {
+      console.error(err)
+      console.info(`\n[${e.msg.channel_id}] [${e.msg.author.username}]\n${e.msg.content}${false}`)
+    })
 }

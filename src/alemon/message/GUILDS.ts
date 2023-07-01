@@ -27,7 +27,7 @@ GUILDS (1 << 0)
   - CHANNEL_DELETE         // 当channel被删除时
  */
 export const GUILDS = () => {
-  ws.on(AvailableIntentsEventsEnum.GUILDS, (e: Messagetype) => {
+  ws.on(AvailableIntentsEventsEnum.GUILDS, async (e: Messagetype) => {
     /* 拆分事件 */
     if (new RegExp(/^GUILD.*$/).test(e.event)) {
       e.event = EType.GUILD
@@ -42,6 +42,14 @@ export const GUILDS = () => {
       e.eventType = EventType.DELETE
     }
     //只匹配类型
-    typeMessage(e)
+    //只匹配类型
+    await typeMessage(e)
+      .then(() => {
+        console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+      })
+      .catch(err => {
+        console.log(err)
+        console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+      })
   })
 }

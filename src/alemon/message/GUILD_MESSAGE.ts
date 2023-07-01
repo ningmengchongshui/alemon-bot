@@ -46,9 +46,13 @@ export const guildMessges = async (e: Messagetype) => {
   const channeldata = await client.channelApi
     .channel(e.msg.channel_id)
     .then(res => {
-      return res.data
+      const { data } = res
+      return data
     })
-    .catch((err: any) => console.error(err))
+    .catch((err: any) => {
+      console.error(err)
+      return false
+    })
 
   e.msg.channel_name = channeldata && channeldata['name']
 
@@ -163,9 +167,7 @@ export const guildMessges = async (e: Messagetype) => {
   e.deleteEmoji = async (boj: ReactionObj): Promise<boolean> => {
     return await client.reactionApi
       .deleteReaction(e.msg.channel_id, boj)
-      .then(res => {
-        return true
-      })
+      .then(() => true)
       .catch((err: any) => {
         console.error(err)
         return false
@@ -180,9 +182,7 @@ export const guildMessges = async (e: Messagetype) => {
   e.postEmoji = async (boj: ReactionObj): Promise<boolean> => {
     return await client.reactionApi
       .postReaction(e.msg.channel_id, boj)
-      .then(res => {
-        return true
-      })
+      .then(() => true)
       .catch((err: any) => {
         console.error(err)
         return false
@@ -238,9 +238,12 @@ export const guildMessges = async (e: Messagetype) => {
   }
 
   /* 消息处理 */
-  InstructionMatching(e).catch((err: any) => console.error(err))
-
-  console.info(
-    `\n[${e.msg.channel_id}] [${e.msg.author.username}]\n${e.msg.content}`
-  )
+  await InstructionMatching(e)
+    .then(() => {
+      console.info(`\n[${e.msg.channel_id}] [${e.msg.author.username}]\n${e.msg.content}${true}`)
+    })
+    .catch((err: any) => {
+      console.error(err)
+      console.info(`\n[${e.msg.channel_id}] [${e.msg.author.username}]\n${e.msg.content}${false}`)
+    })
 }

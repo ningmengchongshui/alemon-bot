@@ -34,7 +34,7 @@ declare global {
     - OPEN_FORUM_REPLY_DELETE      // 当用户删除评论时
    */
 export const OPEN_FORUMS_EVENT = () => {
-  ws.on('OPEN_FORUMS_EVENT', (e: Messagetype) => {
+  ws.on('OPEN_FORUMS_EVENT', async (e: Messagetype) => {
     /* 事件匹配 */
 
     if (new RegExp(/^OPEN_FORUM_THREAD/).test(e.eventType)) {
@@ -57,6 +57,13 @@ export const OPEN_FORUMS_EVENT = () => {
     e.isPrivate = false
 
     //只匹配类型
-    typeMessage(e)
+    await typeMessage(e)
+      .then(() => {
+        console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+      })
+      .catch(err => {
+        console.log(err)
+        console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+      })
   })
 }

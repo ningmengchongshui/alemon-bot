@@ -32,7 +32,7 @@ FORUMS_EVENT (1 << 28)  // 论坛事件，仅 *私域* 机器人能够设置此 
   - FORUM_PUBLISH_AUDIT_RESULT      // 当用户发表审核通过时
  */
 export const FORUMS_EVENT = () => {
-  ws.on(AvailableIntentsEventsEnum.FORUMS_EVENT, (e: Messagetype) => {
+  ws.on(AvailableIntentsEventsEnum.FORUMS_EVENT, async (e: Messagetype) => {
     /* 事件匹配 */
 
     if (new RegExp(/^FORUM_THREAD/).test(e.eventType)) {
@@ -54,6 +54,13 @@ export const FORUMS_EVENT = () => {
     //是私域
     e.isPrivate = true
     //只匹配类型
-    typeMessage(e)
+    await typeMessage(e)
+      .then(() => {
+        console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+      })
+      .catch(err => {
+        console.log(err)
+        console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+      })
   })
 }

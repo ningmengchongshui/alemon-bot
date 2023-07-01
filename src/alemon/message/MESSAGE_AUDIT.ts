@@ -16,7 +16,7 @@ MESSAGE_AUDIT (1 << 27)
 - MESSAGE_AUDIT_REJECT   // 消息审核不通过
  */
 export const MESSAGE_AUDIT = () => {
-  ws.on(AvailableIntentsEventsEnum.MESSAGE_AUDIT, (e: Messagetype) => {
+  ws.on(AvailableIntentsEventsEnum.MESSAGE_AUDIT, async (e: Messagetype) => {
     /* 事件匹配 */
     e.event = EType.MESSAGE_AUDIT
     if (new RegExp(/PASS$/).test(e.eventType)) {
@@ -26,6 +26,14 @@ export const MESSAGE_AUDIT = () => {
     }
 
     //只匹配类型
-    typeMessage(e)
+    //只匹配类型
+    await typeMessage(e)
+      .then(() => {
+        console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+      })
+      .catch(err => {
+        console.log(err)
+        console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+      })
   })
 }

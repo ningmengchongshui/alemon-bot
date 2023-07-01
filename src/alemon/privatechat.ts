@@ -85,7 +85,7 @@ export const Private = async (
     })
     .then(() => true)
     .catch(err => {
-      console.error('出错啦', err)
+      console.error(err)
       return false
     })
 }

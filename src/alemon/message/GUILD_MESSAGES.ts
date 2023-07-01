@@ -28,7 +28,15 @@ export const GUILD_MESSAGES = () => {
       e.event = EType.MESSAGES
       e.eventType = EventType.DELETE
       e.isRecall = true
-      typeMessage(e).catch((err: any) => console.error(err))
+      //只匹配类型
+      await typeMessage(e)
+        .then(() => {
+          console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+        })
+        .catch(err => {
+          console.log(err)
+          console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+        })
       return
     }
     /* 测回消息 */
