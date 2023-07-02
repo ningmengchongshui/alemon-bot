@@ -4,6 +4,10 @@ import { AvailableIntentsEventsEnum } from 'qq-guild-bot'
 import { sendImage, postImage, typeMessage } from 'alemon'
 import { BotType, EventType, EType, Messagetype, BotConfigType } from 'alemon'
 
+// 非依赖引用
+
+import { getChannels } from '../clientapi.js'
+
 declare global {
   //接口对象
   var client: IOpenAPI
@@ -34,10 +38,11 @@ export const GUILD_MEMBERS = () => {
       e.eventType = EventType.DELETE
     }
 
-    /**
-     * 得到频道
-     */
-    const { data } = await client.channelApi.channels(e.msg.guild_id)
+    const data = await getChannels(e.msg.guild_id)
+    if (typeof data == 'boolean') {
+      console.info(`\n[${e.event}] [${e.eventType}]\n${false}`)
+      return false
+    }
     const channel = data.find(item => item.type === 0)
 
     /**
@@ -94,6 +99,7 @@ export const GUILD_MEMBERS = () => {
      */
 
     /**
+     * 默认选择找到的第一个子讨论频道
      * 消息发送机制
      * @param content 消息内容
      * @param obj 额外消息 可选
@@ -102,52 +108,52 @@ export const GUILD_MEMBERS = () => {
       msg?: string | object | Array<string> | Buffer,
       obj?: object | Buffer
     ): Promise<boolean> => {
-      /**
-       * 频道存在
-       */
-      if (channel) {
-        if (Buffer.isBuffer(msg)) {
-          if (!e.isGroup) return false
-          try {
-            return await e.postImage(msg).catch(err => {
-              console.log(err)
-              return false
-            })
-          } catch (err) {
-            console.error(err)
-            return false
-          }
-        }
-        const content = Array.isArray(msg)
-          ? msg.join('')
-          : typeof msg === 'string'
-          ? msg
-          : undefined
-        if (Buffer.isBuffer(obj)) {
-          if (!e.isGroup) return false
-          try {
-            return await e.postImage(obj, content).catch(err => {
-              console.log(err)
-              return false
-            })
-          } catch (err) {
-            console.error(err)
-            return false
-          }
-        }
-        const options = typeof msg === 'object' && !obj ? msg : obj
-        return await client.messageApi
-          .postMessage(channel.id, {
-            content,
-            ...options
-          })
-          .then(() => true)
-          .catch((err: any) => {
-            console.error(err)
+      /** 子讨论频道不存在 */
+      if (Buffer.isBuffer(msg)) {
+        if (!e.isGroup) return false
+        try {
+          return await e.postImage(msg).catch(err => {
+            console.log(err)
             return false
           })
+        } catch (err) {
+          console.error(err)
+          return false
+        }
       }
-      return false
+      const content = Array.isArray(msg) ? msg.join('') : typeof msg === 'string' ? msg : undefined
+      if (Buffer.isBuffer(obj)) {
+        if (!e.isGroup) return false
+        try {
+          return await e.postImage(obj, content).catch(err => {
+            console.log(err)
+            return false
+          })
+        } catch (err) {
+          console.error(err)
+          return false
+        }
+      }
+      /**
+       * 成员进出奇怪又合理设定
+       * 可以自定义一个讨论子频道去发送新人成员进出
+       * todo
+       * 后期增加特殊可自定义发送接口
+       */
+      if (!channel) {
+        return false
+      }
+      const options = typeof msg === 'object' && !obj ? msg : obj
+      return await client.messageApi
+        .postMessage(channel.id, {
+          content,
+          ...options
+        })
+        .then(() => true)
+        .catch((err: any) => {
+          console.error(err)
+          return false
+        })
     }
 
     //只匹配类型

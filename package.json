@@ -1,6 +1,6 @@
 {
   "name": "alemon-qq",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "阿柠檬机器人",
   "scripts": {
     "app": "ts-node index.ts",
