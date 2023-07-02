@@ -191,7 +191,7 @@ export const getGuildMemberMsg = async (guildId: string, userId: string) => {
  * @param hideTip 是否隐藏
  * @returns
  */
-export const deleteMsg = async (channelID: string, messageID: string, hideTip: boolean) => {
+export const deleteMsg = async (channelID: string, messageID: string, hideTip?: boolean) => {
   const data = await client.messageApi
     .deleteMessage(channelID, messageID, hideTip)
     .then(res => {

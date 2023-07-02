@@ -31,16 +31,19 @@ export const DIRECT_MESSAGE = () => {
       await typeMessage(e)
         .then(() => {
           console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+          return true
         })
         .catch(err => {
           console.log(err)
-          console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+          console.info(`\n[${e.event}] [${e.eventType}]\n${false}`)
+          return false
         })
       return
     }
     // 优化接口
     await directMessage(e).catch(err => {
       console.log(err)
+      return
     })
     console.info(
       `\n[${e.msg.author.username}][${e.msg.author.id}][${e.isGroup}] ${
@@ -126,7 +129,10 @@ async function directMessage(e: Messagetype) {
   e.reply = async (msg?: string | object | Array<string> | Buffer, obj?: object | Buffer) => {
     if (Buffer.isBuffer(msg)) {
       try {
-        return await e.postImage(msg)
+        return await e.postImage(msg).catch(err => {
+          console.log(err)
+          return false
+        })
       } catch (err) {
         console.error(err)
         return false
@@ -136,7 +142,10 @@ async function directMessage(e: Messagetype) {
     const options = typeof msg === 'object' && !obj ? msg : obj
     if (Buffer.isBuffer(obj)) {
       try {
-        return await e.postImage(obj, content)
+        return await e.postImage(obj, content).catch(err => {
+          console.log(err)
+          return false
+        })
       } catch (err) {
         console.error(err)
         return false
@@ -186,9 +195,11 @@ async function directMessage(e: Messagetype) {
   await InstructionMatching(e)
     .then(() => {
       console.info(`\n[${e.msg.channel_id}] [${e.msg.author.username}]\n${e.msg.content}${true}`)
+      return true
     })
     .catch((err: any) => {
       console.error(err)
       console.info(`\n[${e.msg.channel_id}] [${e.msg.author.username}]\n${e.msg.content}${false}`)
+      return false
     })
 }

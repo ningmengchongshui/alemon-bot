@@ -35,14 +35,14 @@ export const guildMessges = async (e: Messagetype) => {
   /* 屏蔽其他机器人的消息 */
   if (e.msg.author.bot) return
 
-  /* tudo 待优化 */
+  /**
+   * tudo
+   * 删除权限验证
+   */
 
-  const BotPS = await channewlPermissions(e.msg.channel_id, robot.user.id)
-  e.bot_permissions = BotPS
-
-  const UserPS = await channewlPermissions(e.msg.channel_id, e.msg.author.id)
-  e.user_permissions = UserPS
-
+  /**
+   * 获得频道信息
+   */
   const channeldata = await client.channelApi
     .channel(e.msg.channel_id)
     .then(res => {
@@ -135,7 +135,10 @@ export const guildMessges = async (e: Messagetype) => {
   ): Promise<boolean> => {
     if (Buffer.isBuffer(msg)) {
       try {
-        return await e.postImage(msg)
+        return await e.postImage(msg).catch(err => {
+          console.log(err)
+          return false
+        })
       } catch (err) {
         console.error(err)
         return false
@@ -144,7 +147,10 @@ export const guildMessges = async (e: Messagetype) => {
     const content = Array.isArray(msg) ? msg.join('') : typeof msg === 'string' ? msg : undefined
     if (Buffer.isBuffer(obj)) {
       try {
-        return await e.postImage(obj, content)
+        return await e.postImage(obj, content).catch(err => {
+          console.log(err)
+          return false
+        })
       } catch (err) {
         console.error(err)
         return false
@@ -245,9 +251,11 @@ export const guildMessges = async (e: Messagetype) => {
   await InstructionMatching(e)
     .then(() => {
       console.info(`\n[${e.msg.channel_id}] [${e.msg.author.username}]\n${e.msg.content}${true}`)
+      return true
     })
     .catch((err: any) => {
       console.error(err)
       console.info(`\n[${e.msg.channel_id}] [${e.msg.author.username}]\n${e.msg.content}${false}`)
+      return false
     })
 }

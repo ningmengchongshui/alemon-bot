@@ -29,16 +29,23 @@ export const PUBLIC_GUILD_MESSAGES = () => {
       await typeMessage(e)
         .then(() => {
           console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+          return true
         })
         .catch(err => {
           console.log(err)
-          console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+          console.info(`\n[${e.event}] [${e.eventType}]\n${false}`)
+          return false
         })
+      return
     }
     if (new RegExp(/CREATE$/).test(e.eventType)) {
       /* 是否是撤回：不是 */
       e.isRecall = false
-      guildMessges(e).catch((err: any) => console.error(err))
+      guildMessges(e).catch((err: any) => {
+        console.error(err)
+        return false
+      })
+      return
     }
   })
 }

@@ -54,10 +54,12 @@ export const FORUMS_EVENT = () => {
     await typeMessage(e)
       .then(() => {
         console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+        return true
       })
       .catch(err => {
         console.log(err)
-        console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+        console.info(`\n[${e.event}] [${e.eventType}]\n${false}`)
+        return false
       })
   })
 }

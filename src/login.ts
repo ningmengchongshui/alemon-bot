@@ -108,7 +108,7 @@ export async function checkRobot(Dcf: string, Bcf: string, val?: number): Promis
         ],
         initial: 0 //默认部署
       }
-    ]).catch(err => {
+    ]).catch((err: any) => {
       console.log(err)
       process.exit()
     })

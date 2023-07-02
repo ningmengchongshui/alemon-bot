@@ -110,7 +110,10 @@ export const GUILD_MEMBERS = () => {
         if (Buffer.isBuffer(msg)) {
           if (!e.isGroup) return false
           try {
-            return await e.postImage(msg)
+            return await e.postImage(msg).catch(err => {
+              console.log(err)
+              return false
+            })
           } catch (err) {
             console.error(err)
             return false
@@ -124,7 +127,10 @@ export const GUILD_MEMBERS = () => {
         if (Buffer.isBuffer(obj)) {
           if (!e.isGroup) return false
           try {
-            return await e.postImage(obj, content)
+            return await e.postImage(obj, content).catch(err => {
+              console.log(err)
+              return false
+            })
           } catch (err) {
             console.error(err)
             return false
@@ -149,10 +155,12 @@ export const GUILD_MEMBERS = () => {
     await typeMessage(e)
       .then(() => {
         console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+        return true
       })
       .catch(err => {
         console.log(err)
-        console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+        console.info(`\n[${e.event}] [${e.eventType}]\n${false}`)
+        return false
       })
   })
 }
