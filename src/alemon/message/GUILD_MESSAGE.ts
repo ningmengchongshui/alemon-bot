@@ -35,7 +35,7 @@ export const guildMessges = async (e: Messagetype) => {
   /* 屏蔽其他机器人的消息 */
   if (e.msg.author.bot) return
 
-  /* 权限问题；todo 待优化 */
+  /* tudo 待优化 */
 
   const BotPS = await channewlPermissions(e.msg.channel_id, robot.user.id)
   e.bot_permissions = BotPS
@@ -62,6 +62,10 @@ export const guildMessges = async (e: Messagetype) => {
   } else {
     e.msg.owner_id = 'false'
   }
+
+  /**
+   * 主人问题  todo
+   */
 
   e.isMaster = false
 

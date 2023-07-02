@@ -7,9 +7,6 @@ declare global {
   var ws: EventEmitter
 }
 /**
- * *********
- * todo
- * 该事件需要拆分
  * ***********
  * THREAD  主题  FORUMS_THREAD
  * POST   帖子 FORUMS_POST
