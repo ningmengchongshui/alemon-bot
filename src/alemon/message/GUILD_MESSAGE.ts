@@ -1,4 +1,4 @@
-import { IOpenAPI, IGuild, ReactionObj } from 'qq-guild-bot'
+import { IOpenAPI, ReactionObj } from 'qq-guild-bot'
 import { EventEmitter } from 'ws'
 import { sendImage, postImage, InstructionMatching } from 'alemon'
 import { BotType, BotConfigType, EType, EventType, Messagetype } from 'alemon'
@@ -13,8 +13,6 @@ declare global {
   var ws: EventEmitter
   //机器人信息
   var robot: BotType
-  //频道管理
-  var guilds: Array<IGuild>
   //机器人配置
   var cfg: BotConfigType
 }
@@ -54,13 +52,6 @@ export const guildMessges = async (e: Messagetype) => {
     })
 
   e.msg.channel_name = channeldata && channeldata['name']
-
-  const guilddata = guilds.find(item => item.id == e.msg.guild_id)
-  if (guilddata) {
-    e.msg.owner_id = guilddata.id
-  } else {
-    e.msg.owner_id = 'false'
-  }
 
   /**
    * 主人问题  todo
