@@ -1,11 +1,13 @@
 import { EventEmitter } from 'ws'
 import { AvailableIntentsEventsEnum } from 'qq-guild-bot'
 import { typeMessage } from 'alemon'
-import { EType, EventType, Messagetype } from 'alemon'
+import { EType, EventType, Messagetype, BotConfigType } from 'alemon'
 
 declare global {
   //连接对象
   var ws: EventEmitter
+  //机器人配置
+  var cfg: BotConfigType
 }
 
 /**

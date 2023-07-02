@@ -1,4 +1,3 @@
-import { IGuild } from 'qq-guild-bot'
 import { SessionEvents } from 'qq-guild-bot'
 import { BotType, cmdInit } from 'alemon'
 /* 监听消息 */
@@ -17,8 +16,6 @@ import { FORUMS_EVENT } from './message/FORUMS_EVENT.js'
 declare global {
   //机器人信息
   var robot: BotType
-  //频道管理
-  var guilds: Array<IGuild>
 }
 /**
  * ws.on方法可以监听机器人所在频道的所有事件
@@ -32,16 +29,6 @@ export const createConversation = () => {
     global.robot = one.msg
     /* 初始化指令 */
     cmdInit()
-    global.guilds = await client.meApi
-      .meGuilds()
-      .then(res => {
-        const { data } = res
-        return data
-      })
-      .catch(err => {
-        console.error(err)
-        return []
-      })
     /* 基础权限 */
     GUILDS() //机器人进出频道消息
     GUILD_MEMBERS() //成员频道进出变动消息

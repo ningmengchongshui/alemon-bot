@@ -2,10 +2,7 @@ import { IOpenAPI } from 'qq-guild-bot'
 import { EventEmitter } from 'ws'
 import { AvailableIntentsEventsEnum } from 'qq-guild-bot'
 import { sendImage, postImage, typeMessage } from 'alemon'
-import { BotType, EventType, EType, Messagetype } from 'alemon'
-
-/* 非依赖引用 */
-import { channewlPermissions } from '../permissions.js'
+import { BotType, EventType, EType, Messagetype, BotConfigType } from 'alemon'
 
 declare global {
   //接口对象
@@ -14,6 +11,8 @@ declare global {
   var ws: EventEmitter
   //机器人信息
   var robot: BotType
+  //机器人配置
+  var cfg: BotConfigType
 }
 
 /**
@@ -35,14 +34,11 @@ export const GUILD_MEMBERS = () => {
       e.eventType = EventType.DELETE
     }
 
+    /**
+     * 得到频道
+     */
     const { data } = await client.channelApi.channels(e.msg.guild_id)
-
     const channel = data.find(item => item.type === 0)
-
-    if (channel) {
-      const BotPS = await channewlPermissions(channel.id, robot.user.id)
-      e.bot_permissions = BotPS
-    }
 
     /**
      * 发送本地图片
@@ -106,6 +102,9 @@ export const GUILD_MEMBERS = () => {
       msg?: string | object | Array<string> | Buffer,
       obj?: object | Buffer
     ): Promise<boolean> => {
+      /**
+       * 频道存在
+       */
       if (channel) {
         if (Buffer.isBuffer(msg)) {
           if (!e.isGroup) return false

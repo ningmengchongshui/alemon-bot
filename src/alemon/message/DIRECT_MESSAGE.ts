@@ -2,10 +2,7 @@ import { IOpenAPI } from 'qq-guild-bot'
 import { EventEmitter } from 'ws'
 import { AvailableIntentsEventsEnum } from 'qq-guild-bot'
 import { sendImage, postImage, InstructionMatching, typeMessage } from 'alemon'
-import { BotType, EventType, EType, Messagetype } from 'alemon'
-
-/* 非依赖引用 */
-import { channewlPermissions } from '../permissions.js'
+import { BotType, EventType, EType, Messagetype, BotConfigType } from 'alemon'
 
 declare global {
   //接口对象
@@ -14,6 +11,8 @@ declare global {
   var ws: EventEmitter
   //机器人信息
   var robot: BotType
+  //机器人配置
+  var cfg: BotConfigType
 }
 
 /**
@@ -63,13 +62,6 @@ async function directMessage(e: Messagetype) {
 
   /* 是群聊 */
   e.isGroup = false
-
-  /* 机器人检查权限,如果机器人本身没权限,讲无法获取用户权限,也就是频道主也会没权限 */
-  const BotPS = await channewlPermissions(e.msg.channel_id, robot.user.id)
-  const UserPS = await channewlPermissions(e.msg.channel_id, e.msg.author.id)
-
-  e.bot_permissions = BotPS
-  e.user_permissions = UserPS
 
   e.identity = {
     master: false, //频道主人

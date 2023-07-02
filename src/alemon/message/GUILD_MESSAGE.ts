@@ -4,7 +4,6 @@ import { sendImage, postImage, InstructionMatching } from 'alemon'
 import { BotType, BotConfigType, EType, EventType, Messagetype } from 'alemon'
 
 /* 非依赖引用 */
-import { channewlPermissions } from '../permissions.js'
 import { Private } from '../privatechat.js'
 
 declare global {
