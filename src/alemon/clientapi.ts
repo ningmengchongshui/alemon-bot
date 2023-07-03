@@ -4,6 +4,7 @@
  * 开发者在测试时若该接口测试完毕
  * 可仓库提交详细信息以升级MessageType
  */
+import { IGuild, IChannel, IMember } from 'qq-guild-bot'
 
 /**
  * **********
@@ -15,7 +16,7 @@
  * 获取当前用户下的所有频道列表
  * @returns
  */
-export const getGuildList = async () => {
+export const getGuildList = async (): Promise<boolean | IGuild[]> => {
   const data = await client.meApi
     .meGuilds()
     .then(res => {
@@ -41,7 +42,7 @@ member_count	number	成员数
 max_members	number	最大成员数
 description	string	描述
  */
-export const getGuildMsg = async (guildId: string) => {
+export const getGuildMsg = async (guildId: string): Promise<boolean | IGuild> => {
   const data = await client.guildApi
     .guild(guildId)
     .then(res => {
@@ -75,7 +76,7 @@ position	number	排序，非必填
 parent_id	string	分组 ID
 owner_id	string	创建人 ID
  */
-export const getChannels = async (guildId: string) => {
+export const getChannels = async (guildId: string): Promise<boolean | IChannel[]> => {
   const data = await client.channelApi
     .channels(guildId)
     .then(res => {
@@ -101,7 +102,7 @@ position	number	排序，非必填
 parent_id	string	分组 ID
 owner_id	string	创建人 ID
  */
-export const getChannel = async (channelId: string) => {
+export const getChannel = async (channelId: string): Promise<boolean | IChannel> => {
   const data = await client.channelApi
     .channel(channelId)
     .then(res => {
@@ -141,7 +142,10 @@ export const getChannel = async (channelId: string) => {
  * @returns
  * 次功能已在e消息中携带
  */
-export const getGuildMemberMsg = async (guildId: string, userId: string) => {
+export const getGuildMemberMsg = async (
+  guildId: string,
+  userId: string
+): Promise<boolean | IMember> => {
   const data = await client.guildApi
     .guildMember(guildId, userId)
     .then(res => {
@@ -191,7 +195,11 @@ export const getGuildMemberMsg = async (guildId: string, userId: string) => {
  * @param hideTip 是否隐藏
  * @returns
  */
-export const deleteMsg = async (channelID: string, messageID: string, hideTip?: boolean) => {
+export const deleteMsg = async (
+  channelID: string,
+  messageID: string,
+  hideTip?: boolean
+): Promise<any> => {
   const data = await client.messageApi
     .deleteMessage(channelID, messageID, hideTip)
     .then(res => {
