@@ -1,9 +1,10 @@
 import { IOpenAPI, ReactionObj } from 'qq-guild-bot'
 import { EventEmitter } from 'ws'
-import { sendImage, postImage, InstructionMatching } from 'alemon'
+import { InstructionMatching } from 'alemon'
 import { BotType, BotConfigType, EType, EventType, Messagetype } from 'alemon'
 
-/* 非依赖引用 */
+// 非依赖引用
+import { sendImage, postImage } from '../alemonapi'
 import { Private } from '../privatechat.js'
 
 declare global {

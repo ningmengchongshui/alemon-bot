@@ -1,11 +1,13 @@
 import { IOpenAPI } from 'qq-guild-bot'
 import { EventEmitter } from 'ws'
 import { AvailableIntentsEventsEnum } from 'qq-guild-bot'
-import { sendImage, postImage, typeMessage } from 'alemon'
+import { typeMessage } from 'alemon'
 import { BotType, EventType, EType, Messagetype, BotConfigType } from 'alemon'
 
 // 非依赖引用
 
+// 非依赖引用
+import { sendImage, postImage } from '../alemonapi'
 import { getChannels } from '../clientapi.js'
 
 declare global {

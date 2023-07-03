@@ -1,6 +1,6 @@
 import './alemon/console.js'
 import { createOpenAPI, createWebsocket, IOpenAPI } from 'qq-guild-bot'
-import { BotConfigType, createApi, setLanchConfig } from 'alemon'
+import { BotConfigType, setLanchConfig } from 'alemon'
 import { EventEmitter } from 'ws'
 import { checkRobot } from './login.js'
 import { createConversation } from './alemon/conversation.js'
@@ -38,8 +38,6 @@ export async function createAlemon() {
   global.client = createOpenAPI(cfg)
   // 创建 websocket
   global.ws = createWebsocket(cfg)
-  // 创建 api
-  createApi(cfg)
   // 创建 conversation
   createConversation()
 }
