@@ -5,3 +5,5 @@ types
 /plugins/
 /example/
 /data/
+/index.js/
+/index.ts/
