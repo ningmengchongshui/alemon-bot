@@ -5,7 +5,7 @@ import { InstructionMatching, typeMessage } from 'alemon'
 import { BotType, EventType, EType, Messagetype, BotConfigType } from 'alemon'
 
 // 非依赖引用
-import { sendImage, postImage } from '../alemonapi'
+import { sendImage, postImage } from '../alemonapi.js'
 
 declare global {
   //接口对象

@@ -1,4 +1,7 @@
-import { postImage, MsgType } from 'alemon'
+import { MsgType } from 'alemon'
+
+import { postImage } from './alemonapi.js'
+
 /**
  * 公信转私信
  * @param m

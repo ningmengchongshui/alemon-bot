@@ -4,7 +4,7 @@ import { InstructionMatching } from 'alemon'
 import { BotType, BotConfigType, EType, EventType, Messagetype } from 'alemon'
 
 // 非依赖引用
-import { sendImage, postImage } from '../alemonapi'
+import { sendImage, postImage } from '../alemonapi.js'
 import { Private } from '../privatechat.js'
 
 declare global {

@@ -7,7 +7,7 @@ import { BotType, EventType, EType, Messagetype, BotConfigType } from 'alemon'
 // 非依赖引用
 
 // 非依赖引用
-import { sendImage, postImage } from '../alemonapi'
+import { sendImage, postImage } from '../alemonapi.js'
 import { getChannels } from '../clientapi.js'
 
 declare global {
