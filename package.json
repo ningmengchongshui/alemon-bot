@@ -20,7 +20,7 @@
   "type": "module",
   "types": "types",
   "dependencies": {
-    "alemon": "1.4.2",
+    "alemon": "1.4.6",
     "axios": "^1.4.0",
     "form-data": "^4.0.0",
     "prompts": "^2.4.2",

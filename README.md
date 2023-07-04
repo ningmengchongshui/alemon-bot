@@ -17,7 +17,7 @@ vi index.js
 ```
 
 ```
-import { createAlemon } from './lib/index.js'
+import { createAlemon } from 'alemon-qq'
 createAlemon().catch(err => {
   console.log(err)
   return

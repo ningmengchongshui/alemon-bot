@@ -146,8 +146,8 @@ export async function checkRobot(Dcf: string, Bcf: string, val?: number): Promis
   let str = readFileSync(Dcf, 'utf-8')
 
   str = str
-    .replace(/appID: ""/g, `appID: '${appID}'`)
-    .replace(/token: ""/g, `token: '${token}'`)
+    .replace(/appID: ''/g, `appID: '${appID}'`)
+    .replace(/token: ''/g, `token: '${token}'`)
     .replace(/intents:\s*\[\s*\]/g, `intents: [${intents}]`)
     .replace(/isPrivate:\s*false/g, `isPrivate: ${isPrivate}`)
     .replace(/sandbox:\s*false/g, `sandbox: ${sandbox}`)
