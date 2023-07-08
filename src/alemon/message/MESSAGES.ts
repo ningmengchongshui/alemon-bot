@@ -2,6 +2,8 @@ import { Messagetype, EventType, EType, InstructionMatching } from 'alemon'
 /** sdk */
 import { BotEvent, MessageContentType, Client } from 'mys-villa'
 
+const ip = Client.getIP()
+
 /**
  * 消息会话
  * @param event 回调数据
@@ -67,7 +69,7 @@ export async function MESSAGES(event: BotEvent, val: number) {
         if (!uul) {
           return false
         }
-        url = uul
+        url = `http://${ip}:8080:${uul}`
         /** 直接发送图片 */
         return await Client.sendMessageTextUrl(villa_id, room_id, cmd_msg, url).catch(err => {
           console.log(err)
@@ -100,7 +102,7 @@ export async function MESSAGES(event: BotEvent, val: number) {
         if (!uul) {
           return false
         }
-        url = uul
+        url = `http://${ip}:8080:${uul}`
         if (entities.length == 0) {
           return await Client.sendMessageTextUrl(villa_id, room_id, content, url).catch(err => {
             console.log(err)
