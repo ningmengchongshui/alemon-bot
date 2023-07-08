@@ -2,11 +2,12 @@ import { BotConfigType, setLanchConfig, cmdInit } from 'alemon'
 import { callBack } from './alemon/conversation.js'
 import { checkRobot } from './login.js'
 import { DefaultConfigLogin, ConfigLogin, PuppeteerConfig, MysConfig } from './config/index.js'
-import { createClient, getIP } from './sdk/index.js'
+import { createClient, Client } from 'mys-villa'
 
 declare global {
   //机器人配置
   var cfg: BotConfigType
+  var client: any
 }
 
 export async function createAlemon() {
@@ -28,7 +29,6 @@ export async function createAlemon() {
     console.log(err)
     return
   })
-
   /* 创建应用程序 */
   createClient(
     {
@@ -45,13 +45,13 @@ export async function createAlemon() {
       if (cfg.sandbox) {
         console.info('[DOCS] https://webstatic.mihoyo.com/')
       }
-      const ip = await getIP()
-      if (ip) {
-        console.info(`[OPEN] http://${ip}:${MysConfig.host}${MysConfig.url}`)
-      } else {
-        console.log('公网IP识别失败~暂无法支持运行')
-      }
     }
   )
+  const ip = await Client.getIP()
+  if (ip) {
+    console.info(`[OPEN] http://${ip}:${MysConfig.host}${MysConfig.url}`)
+  } else {
+    console.log('公网IP识别失败~暂无法支持运行')
+  }
   return true
 }

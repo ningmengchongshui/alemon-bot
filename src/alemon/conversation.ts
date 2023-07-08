@@ -4,7 +4,7 @@ import { GUILD_MESSAGE_REACTIONS } from './message/GUILD_MESSAGE_REACTIONS.js'
 import { MESSAGE_AUDIT } from './message/MESSAGE_AUDIT.js'
 import { GUILDS } from './message/GUILDS.js'
 /** sdk */
-import { BotEvent } from '../sdk/index.js'
+import { BotEvent } from 'mys-villa'
 /** 事件处理集 */
 const ConversationMap = {
   [1]: GUILD_MEMBERS, // 房间消息--成员进出

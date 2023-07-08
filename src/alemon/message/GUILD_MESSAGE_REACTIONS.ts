@@ -1,6 +1,6 @@
 import { Messagetype, EventType, EType, typeMessage } from 'alemon'
 /** sdk */
-import { BotEvent } from '../../sdk/index.js'
+import { BotEvent } from 'mys-villa'
 /**
  * 表情表态
  * @param event 回调数据

@@ -1,15 +1,6 @@
 import { Messagetype, EventType, EType, InstructionMatching } from 'alemon'
 /** sdk */
-import {
-  BotEvent,
-  MessageContentType,
-  setLocalImg,
-  stringParsing,
-  sendMessageTextUrl,
-  sendMessageText,
-  sendMessageTextEntities,
-  sendMessageTextEntitiesUrl
-} from '../../sdk/index.js'
+import { BotEvent, MessageContentType, Client } from 'mys-villa'
 
 /**
  * 消息会话
@@ -72,13 +63,13 @@ export async function MESSAGES(event: BotEvent, val: number) {
       let url = ''
       if (Buffer.isBuffer(msg)) {
         // 挂载图片
-        const uul = await setLocalImg(msg)
+        const uul = await Client.setLocalImg(msg)
         if (!uul) {
           return false
         }
         url = uul
         /** 直接发送图片 */
-        return await sendMessageTextUrl(villa_id, room_id, cmd_msg, url).catch(err => {
+        return await Client.sendMessageTextUrl(villa_id, room_id, cmd_msg, url).catch(err => {
           console.log(err)
           return false
         })
@@ -88,51 +79,59 @@ export async function MESSAGES(event: BotEvent, val: number) {
         const options: any = msg
         if (options?.image) {
           /** 图片对象  */
-          return await sendMessageTextUrl(villa_id, room_id, cmd_msg, options.image).catch(err => {
-            console.log(err)
-            return false
-          })
-        }
-        // msg 是对象,当没解析出什么
-        return false
-      }
-
-      /* 字符解析器 */
-      const { entities, content } = await stringParsing(msg, villa_id)
-
-      // 第二参考书是 buffer
-      if (Buffer.isBuffer(obj)) {
-        // 挂载图片
-        const uul = await setLocalImg(obj)
-        if (!uul) {
-          return false
-        }
-        url = uul
-        if (entities.length == 0) {
-          return await sendMessageTextUrl(villa_id, room_id, content, url).catch(err => {
-            console.log(err)
-            return false
-          })
-        } else {
-          return await sendMessageTextEntitiesUrl(villa_id, room_id, content, entities, url).catch(
+          return await Client.sendMessageTextUrl(villa_id, room_id, cmd_msg, options.image).catch(
             err => {
               console.log(err)
               return false
             }
           )
         }
+        // msg 是对象,当没解析出什么
+        return false
+      }
+
+      /* 字符解析器 */
+      const { entities, content } = await Client.stringParsing(msg, villa_id)
+
+      // 第二参考书是 buffer
+      if (Buffer.isBuffer(obj)) {
+        // 挂载图片
+        const uul = await Client.setLocalImg(obj)
+        if (!uul) {
+          return false
+        }
+        url = uul
+        if (entities.length == 0) {
+          return await Client.sendMessageTextUrl(villa_id, room_id, content, url).catch(err => {
+            console.log(err)
+            return false
+          })
+        } else {
+          return await Client.sendMessageTextEntitiesUrl(
+            villa_id,
+            room_id,
+            content,
+            entities,
+            url
+          ).catch(err => {
+            console.log(err)
+            return false
+          })
+        }
       }
 
       if (entities.length == 0 && content != '') {
-        return await sendMessageText(villa_id, room_id, content).catch(err => {
+        return await Client.sendMessageText(villa_id, room_id, content).catch(err => {
           console.log(err)
           return false
         })
       } else if (entities.length != 0 && content != '') {
-        return await sendMessageTextEntities(villa_id, room_id, content, entities).catch(err => {
-          console.log(err)
-          return false
-        })
+        return await Client.sendMessageTextEntities(villa_id, room_id, content, entities).catch(
+          err => {
+            console.log(err)
+            return false
+          }
+        )
       }
       return false
     }
