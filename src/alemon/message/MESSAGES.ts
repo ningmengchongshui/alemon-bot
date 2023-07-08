@@ -2,7 +2,7 @@ import { Messagetype, EventType, EType, InstructionMatching } from 'alemon'
 /** sdk */
 import { BotEvent, MessageContentType, Client } from 'mys-villa'
 
-const ip = Client.getIP()
+const ip = await Client.getIP()
 
 /**
  * 消息会话
