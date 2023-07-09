@@ -15,15 +15,21 @@ declare global {
   var cfg: BotConfigType
 }
 
-export async function createClient(cfg:BotConfigType) {
-  // 设置 config
-   global.cfg = cfg
-  // 创建 client
-  global.client = createOpenAPI(cfg)
-  // 创建 websocket
-  global.ws = createWebsocket(cfg)
-  // 创建 conversation
-  createConversation()
+export function createClient(cfg: BotConfigType) {
+  try {
+    // 设置 config
+    global.cfg = cfg
+    // 创建 client
+    global.client = createOpenAPI(cfg)
+    // 创建 websocket
+    global.ws = createWebsocket(cfg)
+    // 创建 conversation
+    createConversation()
+    return true
+  } catch (err) {
+    console.log(err)
+    return false
+  }
 }
 
 export async function createAlemon() {
