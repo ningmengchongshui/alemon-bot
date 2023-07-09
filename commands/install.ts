@@ -46,7 +46,7 @@ prompts([
         ? true
         : "首字母小写,可选符号数字、小写字母、_和-";
     },
-    initial: process.argv[3] ? process.argv[3] : "yunzai-bot",
+    initial: process.argv[3] ? process.argv[3] : "alemon-bot",
   },
   {
     type: "select",
@@ -91,7 +91,7 @@ prompts([
         { cwd: process.cwd() }
       );
     } catch (error) {
-      console.log(`Yunzai-Bot ${error}`);
+      console.log(`alemon-Bot ${error}`);
       return;
     }
 
