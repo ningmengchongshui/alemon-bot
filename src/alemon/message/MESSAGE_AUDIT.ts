@@ -17,7 +17,7 @@ export async function MESSAGE_AUDIT(event: BotEvent, val: number) {
     /** 事件类型 */
     event: EType.MESSAGE_AUDIT,
     /** 消息类型  */
-    eventType: EventType.CREATE,
+    eventType: EventType.CREATE, // 如何判断审核事件成功与否
     /**  消息对象 */
     msg: {
       channel_id: '', // 房间

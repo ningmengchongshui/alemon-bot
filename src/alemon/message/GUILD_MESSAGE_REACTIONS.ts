@@ -17,7 +17,9 @@ export async function GUILD_MESSAGE_REACTIONS(event: BotEvent, val: number) {
     /** 事件类型 */
     event: EType.GUILD_MESSAGE_REACTIONS,
     /** 消息类型  */
-    eventType: EventType.CREATE, // 如何判断是增加还是减少？
+    eventType: event.extend_data.EventData.AddQuickEmoticon.is_cancel
+      ? EventType.DELETE // 存在则为撤回
+      : EventType.CREATE,
     /**  消息对象 */
     msg: {
       channel_id: '', // 房间
