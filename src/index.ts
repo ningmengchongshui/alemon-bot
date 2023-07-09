@@ -15,6 +15,17 @@ declare global {
   var cfg: BotConfigType
 }
 
+export async function createClient(cfg:BotConfigType) {
+  // 设置 config
+   global.cfg = cfg
+  // 创建 client
+  global.client = createOpenAPI(cfg)
+  // 创建 websocket
+  global.ws = createWebsocket(cfg)
+  // 创建 conversation
+  createConversation()
+}
+
 export async function createAlemon() {
   // 设置浏览器配置
   setLanchConfig(PuppeteerConfig)
