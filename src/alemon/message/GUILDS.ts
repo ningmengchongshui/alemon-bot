@@ -15,7 +15,7 @@ export async function GUILDS(event: BotEvent, val: number) {
     /** 消息编号 */
     eventId: event.id,
     /** 事件类型 */
-    event: EType.MESSAGES,
+    event: EType.GUILD,
     /** 消息类型  */
     eventType: val == 3 ? EventType.CREATE : EventType.DELETE,
     /**  消息对象 */

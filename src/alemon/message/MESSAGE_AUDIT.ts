@@ -15,7 +15,7 @@ export async function MESSAGE_AUDIT(event: BotEvent, val: number) {
     /** 消息编号 */
     eventId: event.id,
     /** 事件类型 */
-    event: EType.MESSAGES,
+    event: EType.MESSAGE_AUDIT,
     /** 消息类型  */
     eventType: EventType.CREATE,
     /**  消息对象 */

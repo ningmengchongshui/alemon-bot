@@ -15,9 +15,9 @@ export async function GUILD_MEMBERS(event: BotEvent, val: number) {
     /** 消息编号 */
     eventId: event.id,
     /** 事件类型 */
-    event: EType.MESSAGES,
+    event: EType.GUILD_MEMBERS,
     /** 消息类型  */
-    eventType: EventType.CREATE,
+    eventType: EventType.CREATE, // 如何判断是进是出？
     /**  消息对象 */
     msg: {
       channel_id: '', // 房间
