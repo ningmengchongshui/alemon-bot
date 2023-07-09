@@ -25,7 +25,7 @@
   "dependencies": {
     "alemon": "^1.4.6",
     "alemon-redis": "^1.0.0",
-    "mys-villa": "^1.0.2",
+    "mys-villa": "^1.0.3",
     "prompts": "^2.4.2",
     "yaml": "^2.3.1"
   },
