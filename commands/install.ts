@@ -80,14 +80,21 @@ prompts([
     mkdirSync(dirPath);
     console.log(`\n`);
     const SourceMap = {
-      0: "-b main https://gitee.com/ningmengchongshui/alemon-bot.git",
-      1: "-b mys https://gitee.com/ningmengchongshui/alemon-bot.git",
+      0: "main",
+      1: "mys",
     };
 
     try {
       await runCommand(
         "git",
-        ["clone", "--depth=1", SourceMap[source], dirPath],
+        [
+          "clone",
+          "--depth=1",
+          "-b",
+          SourceMap[source],
+          "https://gitee.com/ningmengchongshui/alemon-bot.git",
+          dirPath,
+        ],
         { cwd: process.cwd() }
       );
     } catch (error) {
