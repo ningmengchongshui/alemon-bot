@@ -61,7 +61,7 @@ prompts([
   {
     type: "text",
     name: "isPlugin",
-    message: "Are you sure to install \n the miao-plugin?(y/n) :",
+    message: "Are you sure to install \n the alemon-plugin?(y/n) :",
     initial: () => {
       if (process.argv[4] == "n") {
         return "n";
@@ -81,7 +81,7 @@ prompts([
     console.log(`\n`);
     const SourceMap = {
       0: "-b main https://gitee.com/ningmengchongshui/alemon-bot.git",
-      1: "-b main https://gitee.com/ningmengchongshui/alemon-bot.git",
+      1: "-b mys https://gitee.com/ningmengchongshui/alemon-bot.git",
     };
 
     try {
@@ -102,7 +102,9 @@ prompts([
           [
             "clone",
             "--depth=1",
-            "-b plugin https://gitee.com/ningmengchongshui/alemon-bot.git",
+            "-b",
+            "plugin",
+            "https://gitee.com/ningmengchongshui/alemon-bot.git",
             `${dirPath}/plugins/alemon-plugin`,
           ],
           { cwd: process.cwd() }
