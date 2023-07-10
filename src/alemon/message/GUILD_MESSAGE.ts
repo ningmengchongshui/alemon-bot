@@ -235,7 +235,7 @@ export const guildMessges = async (cfg: BotConfigType, e: Messagetype) => {
     msg?: string | object | Array<string> | Buffer,
     obj?: object | Buffer
   ): Promise<boolean> => {
-    return await Private(e.msg, msg, obj)
+    return await Private(cfg, e.msg, msg, obj)
       .then(res => {
         return res
       })

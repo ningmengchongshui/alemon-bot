@@ -1,4 +1,4 @@
-import { MsgType } from 'alemon'
+import { MsgType, BotConfigType } from 'alemon'
 
 import { postImage } from './alemonapi.js'
 
@@ -10,6 +10,7 @@ import { postImage } from './alemonapi.js'
  * @returns
  */
 export const Private = async (
+  cfg: BotConfigType,
   m: MsgType,
   msg?: string | object | Array<string> | Buffer,
   obj?: object | Buffer
@@ -36,15 +37,19 @@ export const Private = async (
    */
   if (Buffer.isBuffer(msg)) {
     try {
-      //tudo
       return await postImage(
-        m.guild_id,
         {
+          id: m.guild_id,
           msg_id: m.id, //消息id, 必须
           file_image: msg, //buffer
-          content: ''
+          content: '',
+          isGroup: true
         },
-        true
+        {
+          appID: cfg.appID,
+          token: cfg.token,
+          sandbox: cfg.sandbox
+        }
       )
         .then(() => true)
         .catch((err: any) => {
@@ -62,13 +67,18 @@ export const Private = async (
     try {
       //tudo
       return await postImage(
-        m.guild_id,
         {
+          id: m.guild_id,
           msg_id: m.id, //消息id, 必须
           file_image: obj, //buffer
-          content
+          content: '',
+          isGroup: true
         },
-        true
+        {
+          appID: cfg.appID,
+          token: cfg.token,
+          sandbox: cfg.sandbox
+        }
       )
         .then(() => true)
         .catch((err: any) => {
