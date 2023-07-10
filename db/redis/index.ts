@@ -11,3 +11,4 @@ const redisC = createRedis({
   db: 1,
 });
 // 实例可以创建多个,默认使用数据库1
+export {redisC}
