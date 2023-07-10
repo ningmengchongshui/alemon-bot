@@ -4,7 +4,7 @@ import { setLanchConfig } from 'alemon'
 import { EventEmitter } from 'ws'
 import { checkRobot } from './login.js'
 import { createConversation } from './alemon/conversation.js'
-import { startConfig, getConfig, DefaultConfigLogin, ConfigLogin } from './config/index.js'
+import { createConfig, getConfig, DefaultConfigLogin, ConfigLogin } from './config/index.js'
 
 declare global {
   //接口对象
@@ -15,7 +15,7 @@ declare global {
 
 export async function createAlemon() {
   // 创建配置
-  startConfig()
+  createConfig()
   // 读取配置
   const { PuppeteerConfig } = getConfig()
   // 设置浏览器配置
@@ -39,13 +39,13 @@ export async function createAlemon() {
 
 // 导出声明
 export * from 'alemon/types'
-export * from 'qq-guild-bot/typings'
+export * from 'qq-guild-bot'
 export function createClient() {
   return {
     createOpenAPI,
     createWebsocket,
     createConversation,
-    startConfig,
+    createConfig,
     getConfig,
     setLanchConfig,
     checkRobot

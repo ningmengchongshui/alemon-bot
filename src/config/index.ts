@@ -12,7 +12,8 @@ export const ConfigLogin = 'config/login.yaml'
 export const ConfigRedis = 'config/redis.yaml'
 export const ConfigMysql = 'config/mysql.yaml'
 export const ConfigPuppeteer = 'config/puppeteer.yaml'
-export function startConfig() {
+/* 创建配置 */
+export function createConfig() {
   /** redis */
   if (existsSync(DefaultConfigRedis) && !existsSync(ConfigRedis)) {
     cpSync(DefaultConfigRedis, ConfigRedis, {
