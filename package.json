@@ -1,7 +1,7 @@
 {
   "name": "alemon-plugin",
   "version": "1.0.0",
-  "description": "阿柠插件",
+  "description": "alemon插件",
   "author": "ningmengchongshui",
   "license": "GPL-2.0",
   "private": true,
