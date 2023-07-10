@@ -51,13 +51,18 @@ export const GUILD_MEMBERS = (cfg: BotConfigType, robot: BotType) => {
      */
     e.sendImage = async (file_image: string | Buffer | URL, content?: string): Promise<boolean> => {
       return await sendImage(
-        e.msg.guild_id,
         {
+          id: e.msg.guild_id,
           msg_id: e.msg.id, //消息id, 必须
-          file_image, //buffer
-          content
+          file_image, //本地图片的路径
+          content,
+          isGroup: e.isGroup
         },
-        e.isGroup
+        {
+          appID: cfg.appID,
+          token: cfg.token,
+          sandbox: cfg.sandbox
+        }
       )
         .then(() => true)
         .catch((err: any) => {
@@ -74,13 +79,18 @@ export const GUILD_MEMBERS = (cfg: BotConfigType, robot: BotType) => {
      */
     e.postImage = async (file_image: string | Buffer | URL, content?: string): Promise<boolean> => {
       return await postImage(
-        e.msg.guild_id,
         {
+          id: e.msg.guild_id,
           msg_id: e.msg.id, //消息id, 必须
-          file_image, //buffer
-          content
+          file_image, //本地图片的路径
+          content,
+          isGroup: e.isGroup
         },
-        e.isGroup
+        {
+          appID: cfg.appID,
+          token: cfg.token,
+          sandbox: cfg.sandbox
+        }
       )
         .then(() => true)
         .catch((err: any) => {

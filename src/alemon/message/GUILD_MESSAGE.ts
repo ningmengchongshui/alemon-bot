@@ -72,13 +72,18 @@ export const guildMessges = async (cfg: BotConfigType, e: Messagetype) => {
   e.sendImage = async (file_image: any, content?: string): Promise<boolean> => {
     if (!e.isGroup) return false
     return await sendImage(
-      e.msg.channel_id,
       {
+        id: e.msg.channel_id,
         msg_id: e.msg.id, //消息id, 必须
         file_image, //本地图片的路径
-        content
+        content,
+        isGroup: e.isGroup
       },
-      e.isGroup
+      {
+        appID: cfg.appID,
+        token: cfg.token,
+        sandbox: cfg.sandbox
+      }
     )
       .then(() => true)
       .catch((err: any) => {
@@ -96,13 +101,18 @@ export const guildMessges = async (cfg: BotConfigType, e: Messagetype) => {
   e.postImage = async (file_image: string | Buffer | URL, content?: string): Promise<boolean> => {
     if (!e.isGroup) return false
     return await postImage(
-      e.msg.channel_id,
       {
+        id: e.msg.channel_id,
         msg_id: e.msg.id, //消息id, 必须
-        file_image, //buffer
-        content
+        file_image, //本地图片的路径
+        content,
+        isGroup: e.isGroup
       },
-      e.isGroup
+      {
+        appID: cfg.appID,
+        token: cfg.token,
+        sandbox: cfg.sandbox
+      }
     )
       .then(() => true)
       .catch((err: any) => {

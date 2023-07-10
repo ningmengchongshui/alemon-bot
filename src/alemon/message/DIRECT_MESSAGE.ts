@@ -39,7 +39,7 @@ export const DIRECT_MESSAGE = (cfg: BotConfigType, robot: BotType) => {
       return
     }
     // 优化接口
-    await directMessage(e).catch(err => {
+    await directMessage(cfg, e).catch(err => {
       console.log(err)
       return
     })
@@ -51,7 +51,7 @@ export const DIRECT_MESSAGE = (cfg: BotConfigType, robot: BotType) => {
   })
 }
 
-async function directMessage(e: Messagetype) {
+async function directMessage(cfg: BotConfigType, e: Messagetype) {
   /* 事件匹配 */
   e.event = EType.MESSAGES
   e.eventType = EventType.CREATE
@@ -78,13 +78,18 @@ async function directMessage(e: Messagetype) {
    */
   e.sendImage = async (file_image: string | Buffer | URL, content?: string): Promise<boolean> => {
     return await sendImage(
-      e.msg.guild_id,
       {
+        id: e.msg.guild_id,
         msg_id: e.msg.id, //消息id, 必须
         file_image, //buffer
-        content
+        content,
+        isGroup: e.isGroup
       },
-      e.isGroup
+      {
+        appID: cfg.appID,
+        token: cfg.token,
+        sandbox: cfg.sandbox
+      }
     )
       .then(() => true)
       .catch((err: any) => {
@@ -101,13 +106,18 @@ async function directMessage(e: Messagetype) {
    */
   e.postImage = async (file_image: string | Buffer | URL, content?: string): Promise<boolean> => {
     return await postImage(
-      e.msg.guild_id,
       {
+        id: e.msg.guild_id,
         msg_id: e.msg.id, //消息id, 必须
         file_image, //buffer
-        content
+        content,
+        isGroup: e.isGroup
       },
-      e.isGroup
+      {
+        appID: cfg.appID,
+        token: cfg.token,
+        sandbox: cfg.sandbox
+      }
     )
       .then(() => true)
       .catch((err: any) => {

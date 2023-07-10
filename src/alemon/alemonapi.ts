@@ -2,7 +2,6 @@ import { createReadStream } from 'node:fs'
 import { Readable } from 'node:stream'
 import FormData from 'form-data'
 import axios from 'axios'
-import { BotConfigType } from 'alemon'
 
 /** 环境配置 */
 const Acf = {
@@ -10,18 +9,13 @@ const Acf = {
   api: 'https://api.sgroup.qq.com'
 }
 
-declare global {
-  //机器人配置
-  var cfg: BotConfigType
-}
-
 /**
  * 得到环境api
  * @returns
  */
-function getUrl(): string {
+function getUrl(sandbox: boolean): string {
   //沙箱环境
-  if (cfg.sandbox) return Acf.sandbox_api
+  if (sandbox) return Acf.sandbox_api
   //正式环境
   return Acf.api
 }
@@ -34,15 +28,20 @@ function getUrl(): string {
  * @returns
  */
 export async function sendImage(
-  id: string,
   message: {
+    id: string
     msg_id: string
     file_image: string | Buffer | URL
+    isGroup: boolean
     content?: string
   },
-  isGroup: boolean
+  cfg: {
+    appID: string
+    token: string
+    sandbox: boolean
+  }
 ): Promise<any> {
-  const urlbase = getUrl()
+  const urlbase = getUrl(cfg.sandbox)
 
   /** 读取本地图片地址 */
   const picData = createReadStream(message.file_image)
@@ -54,10 +53,10 @@ export async function sendImage(
   formdata.append('file_image', picData)
 
   let url = ''
-  if (!isGroup) {
-    url = `${urlbase}/dms/${id}/messages`
+  if (!message.isGroup) {
+    url = `${urlbase}/dms/${message.id}/messages`
   } else {
-    url = `${urlbase}/channels/${id}/messages`
+    url = `${urlbase}/channels/${message.id}/messages`
   }
 
   /* 采用请求方式发送数据 */
@@ -80,16 +79,21 @@ export async function sendImage(
  * @returns
  */
 export async function postImage(
-  id: string,
   message: {
+    id: string
     msg_id: string
     file_image: string | Buffer | URL
+    isGroup: boolean
     content?: string
   },
-  isGroup: boolean
+  cfg: {
+    appID: string
+    token: string
+    sandbox: boolean
+  }
 ): Promise<any> {
   // 得到环境
-  const urlbase = getUrl()
+  const urlbase = getUrl(cfg.sandbox)
   /* 创建可读流对象 */
   const picData = new Readable()
   picData.push(message.file_image)
@@ -105,10 +109,10 @@ export async function postImage(
   })
 
   let url = ''
-  if (!isGroup) {
-    url = `${urlbase}/dms/${id}/messages`
+  if (!message.isGroup) {
+    url = `${urlbase}/dms/${message.id}/messages`
   } else {
-    url = `${urlbase}/channels/${id}/messages`
+    url = `${urlbase}/channels/${message.id}/messages`
   }
 
   /* 采用请求方式发送数据 */
