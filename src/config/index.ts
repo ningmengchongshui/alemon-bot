@@ -12,25 +12,32 @@ export const ConfigLogin = 'config/login.yaml'
 export const ConfigRedis = 'config/redis.yaml'
 export const ConfigMysql = 'config/mysql.yaml'
 export const ConfigPuppeteer = 'config/puppeteer.yaml'
-/** redis */
-if (existsSync(DefaultConfigRedis) && !existsSync(ConfigRedis)) {
-  console.log('打印')
-  cpSync(DefaultConfigRedis, ConfigRedis, {
-    recursive: true
-  })
-}
-/** mysql */
-if (existsSync(DefaultConfigMysql) && !existsSync(ConfigMysql)) {
-  cpSync(DefaultConfigMysql, ConfigMysql, {
-    recursive: true
-  })
-}
-/** puppeterr */
-if (existsSync(DefaultConfigPuppeteer) && !existsSync(ConfigPuppeteer)) {
-  cpSync(DefaultConfigPuppeteer, ConfigPuppeteer, {
-    recursive: true
-  })
+export function startConfig() {
+  /** redis */
+  if (existsSync(DefaultConfigRedis) && !existsSync(ConfigRedis)) {
+    cpSync(DefaultConfigRedis, ConfigRedis, {
+      recursive: true
+    })
+  }
+  /** mysql */
+  if (existsSync(DefaultConfigMysql) && !existsSync(ConfigMysql)) {
+    cpSync(DefaultConfigMysql, ConfigMysql, {
+      recursive: true
+    })
+  }
+  /** puppeterr */
+  if (existsSync(DefaultConfigPuppeteer) && !existsSync(ConfigPuppeteer)) {
+    cpSync(DefaultConfigPuppeteer, ConfigPuppeteer, {
+      recursive: true
+    })
+  }
 }
 /* 读取配置 */
-const PuppeteerConfig = getYaml(join(process.cwd(), ConfigPuppeteer))
-export { PuppeteerConfig }
+export function getConfig() {
+  return {
+    LoginConfig: getYaml(join(process.cwd(), ConfigPuppeteer)),
+    RedisConfig: getYaml(join(process.cwd(), ConfigPuppeteer)),
+    MysqlConfig: getYaml(join(process.cwd(), ConfigPuppeteer)),
+    PuppeteerConfig: getYaml(join(process.cwd(), ConfigPuppeteer))
+  }
+}

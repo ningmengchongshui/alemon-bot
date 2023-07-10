@@ -1,7 +1,7 @@
 import { EventEmitter } from 'ws'
 import { AvailableIntentsEventsEnum } from 'qq-guild-bot'
 import { typeMessage } from 'alemon'
-import { EType, EventType, Messagetype, BotConfigType } from 'alemon'
+import { EType, EventType, Messagetype, BotConfigType, BotType } from 'alemon'
 
 /* 非依赖引用 */
 import { guildMessges } from './GUILD_MESSAGE.js'
@@ -9,8 +9,6 @@ import { guildMessges } from './GUILD_MESSAGE.js'
 declare global {
   //连接对象
   var ws: EventEmitter
-  //机器人配置
-  var cfg: BotConfigType
 }
 
 /**
@@ -18,7 +16,7 @@ declare global {
  AT_MESSAGE_CREATE       // 当收到@机器人的消息时
  PUBLIC_MESSAGE_DELETE   // 当频道的消息被删除时
  */
-export const PUBLIC_GUILD_MESSAGES = () => {
+export const PUBLIC_GUILD_MESSAGES = (cfg: BotConfigType, robot: BotType) => {
   ws.on(AvailableIntentsEventsEnum.PUBLIC_GUILD_MESSAGES, async (e: Messagetype) => {
     /* 是否是私域：公域 */
     e.isPrivate = false
@@ -43,7 +41,7 @@ export const PUBLIC_GUILD_MESSAGES = () => {
     if (new RegExp(/CREATE$/).test(e.eventType)) {
       /* 是否是撤回：不是 */
       e.isRecall = false
-      guildMessges(e).catch((err: any) => {
+      guildMessges(cfg, e).catch((err: any) => {
         console.error(err)
         return false
       })

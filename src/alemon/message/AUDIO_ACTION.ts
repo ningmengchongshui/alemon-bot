@@ -1,12 +1,10 @@
 import { EventEmitter } from 'ws'
 import { AvailableIntentsEventsEnum } from 'qq-guild-bot'
-import { typeMessage, BotConfigType } from 'alemon'
+import { typeMessage, BotConfigType, BotType } from 'alemon'
 import { EType, EventType, Messagetype } from 'alemon'
 
 declare global {
   var ws: EventEmitter
-  //机器人配置
-  var cfg: BotConfigType
 }
 
 /**
@@ -21,7 +19,7 @@ AUDIO_ACTION (1 << 29)
   - AUDIO_ON_MIC            // 上麦时  create
   - AUDIO_OFF_MIC           // 下麦时 delete
  */
-export const AUDIO_ACTION = () => {
+export const AUDIO_ACTION = (cfg: BotConfigType, robot: BotType) => {
   ws.on(AvailableIntentsEventsEnum.AUDIO_ACTION, async (e: Messagetype) => {
     /* 事件匹配 */
     if (new RegExp(/MIC$/).test(e.eventType)) {

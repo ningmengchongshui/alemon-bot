@@ -12,10 +12,6 @@ declare global {
   var client: IOpenAPI
   //连接对象
   var ws: EventEmitter
-  //机器人信息
-  var robot: BotType
-  //机器人配置
-  var cfg: BotConfigType
 }
 
 /**
@@ -23,7 +19,7 @@ DIRECT_MESSAGE (1 << 12)
   - DIRECT_MESSAGE_CREATE   // 当收到用户发给机器人的私信消息时
   - DIRECT_MESSAGE_DELETE   // 删除（撤回）消息事件
  */
-export const DIRECT_MESSAGE = () => {
+export const DIRECT_MESSAGE = (cfg: BotConfigType, robot: BotType) => {
   ws.on(AvailableIntentsEventsEnum.DIRECT_MESSAGE, async (e: Messagetype) => {
     /* 撤回事件 */
     if (new RegExp(/^DIRECT_MESSAGE_DELETE$/).test(e.eventType)) {

@@ -1,42 +1,27 @@
 import './alemon/console.js'
 import { createOpenAPI, createWebsocket, IOpenAPI } from 'qq-guild-bot'
-import { BotConfigType, setLanchConfig } from 'alemon'
+import { setLanchConfig } from 'alemon'
 import { EventEmitter } from 'ws'
 import { checkRobot } from './login.js'
 import { createConversation } from './alemon/conversation.js'
-import { DefaultConfigLogin, ConfigLogin, PuppeteerConfig } from './config/index.js'
+import { startConfig, getConfig, DefaultConfigLogin, ConfigLogin } from './config/index.js'
 
 declare global {
   //接口对象
   var client: IOpenAPI
   //连接对象
   var ws: EventEmitter
-  //机器人配置
-  var cfg: BotConfigType
-}
-
-export function createClient(cfg: BotConfigType) {
-  try {
-    // 设置 config
-    global.cfg = cfg
-    // 创建 client
-    global.client = createOpenAPI(cfg)
-    // 创建 websocket
-    global.ws = createWebsocket(cfg)
-    // 创建 conversation
-    createConversation()
-    return true
-  } catch (err) {
-    console.log(err)
-    return false
-  }
 }
 
 export async function createAlemon() {
+  // 创建配置
+  startConfig()
+  // 读取配置
+  const { PuppeteerConfig } = getConfig()
   // 设置浏览器配置
   setLanchConfig(PuppeteerConfig)
   //  登录
-  global.cfg = await checkRobot(
+  const cfg = await checkRobot(
     DefaultConfigLogin,
     ConfigLogin,
     process.argv[2] == 'login' ? 0 : 1
@@ -44,17 +29,25 @@ export async function createAlemon() {
     console.log(err)
     process.exit()
   })
-  console.info('[HELLO] 欢迎使用Alemon-Bot')
-  console.info('[DOCS] http://ningmengchongshui.gitee.io/lemonade')
-  console.info('[GIT] https://github.com/ningmengchongshui/alemon-bot')
-  if (cfg.sandbox) {
-    console.info('[SDK] https://bot.q.qq.com/wiki/develop/nodesdk/')
-    console.info('[API] https://bot.q.qq.com/wiki/develop/api/')
-  }
   // 创建 client
   global.client = createOpenAPI(cfg)
   // 创建 websocket
   global.ws = createWebsocket(cfg)
   // 创建 conversation
-  createConversation()
+  createConversation(cfg)
+}
+
+// 导出声明
+export * from 'alemon/types'
+export * from 'qq-guild-bot/typings'
+export function createClient() {
+  return {
+    createOpenAPI,
+    createWebsocket,
+    createConversation,
+    startConfig,
+    getConfig,
+    setLanchConfig,
+    checkRobot
+  }
 }

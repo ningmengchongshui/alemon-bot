@@ -1,22 +1,20 @@
 import { EventEmitter } from 'ws'
 import { AvailableIntentsEventsEnum } from 'qq-guild-bot'
 import { typeMessage } from 'alemon'
-import { EType, EventType, Messagetype, BotConfigType } from 'alemon'
+import { EType, EventType, Messagetype, BotConfigType, BotType } from 'alemon'
 
 /* 非依赖引用 */
 
 declare global {
   //连接对象
   var ws: EventEmitter
-  //机器人配置
-  var cfg: BotConfigType
 }
 
 /**
 INTERACTION (1 << 26)
   - INTERACTION_CREATE     // 互动事件创建时
  */
-export const INTERACTION = () => {
+export const INTERACTION = (cfg: BotConfigType, robot: BotType) => {
   ws.on(AvailableIntentsEventsEnum.INTERACTION, async (e: Messagetype) => {
     /* 事件匹配 */
     e.event = EType.INTERACTION

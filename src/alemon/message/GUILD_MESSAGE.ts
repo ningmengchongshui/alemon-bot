@@ -1,7 +1,7 @@
 import { IOpenAPI, ReactionObj } from 'qq-guild-bot'
 import { EventEmitter } from 'ws'
 import { InstructionMatching } from 'alemon'
-import { BotType, BotConfigType, EType, EventType, Messagetype } from 'alemon'
+import { BotConfigType, EType, EventType, Messagetype } from 'alemon'
 
 // 非依赖引用
 import { sendImage, postImage } from '../alemonapi.js'
@@ -12,10 +12,6 @@ declare global {
   var client: IOpenAPI
   //连接对象
   var ws: EventEmitter
-  //机器人信息
-  var robot: BotType
-  //机器人配置
-  var cfg: BotConfigType
 }
 
 /**
@@ -24,7 +20,7 @@ declare global {
  * @returns
  */
 
-export const guildMessges = async (e: Messagetype) => {
+export const guildMessges = async (cfg: BotConfigType, e: Messagetype) => {
   /* 事件匹配 */
   e.event = EType.MESSAGES
   /* 类型匹配 */

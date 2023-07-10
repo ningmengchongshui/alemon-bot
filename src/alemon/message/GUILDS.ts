@@ -1,15 +1,13 @@
 import { EventEmitter } from 'ws'
 import { AvailableIntentsEventsEnum } from 'qq-guild-bot'
 import { typeMessage } from 'alemon'
-import { EventType, EType, Messagetype, BotConfigType } from 'alemon'
+import { EventType, EType, Messagetype, BotConfigType, BotType } from 'alemon'
 
 /* 非依赖引用 */
 
 declare global {
   //连接对象
   var ws: EventEmitter
-  //机器人配置
-  var cfg: BotConfigType
 }
 
 /**
@@ -28,7 +26,7 @@ GUILDS (1 << 0)
   - CHANNEL_UPDATE         // 当channel被更新时
   - CHANNEL_DELETE         // 当channel被删除时
  */
-export const GUILDS = () => {
+export const GUILDS = (cfg: BotConfigType, robot: BotType) => {
   ws.on(AvailableIntentsEventsEnum.GUILDS, async (e: Messagetype) => {
     /* 拆分事件 */
     if (new RegExp(/^GUILD.*$/).test(e.event)) {

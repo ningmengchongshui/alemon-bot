@@ -15,10 +15,6 @@ declare global {
   var client: IOpenAPI
   //连接对象
   var ws: EventEmitter
-  //机器人信息
-  var robot: BotType
-  //机器人配置
-  var cfg: BotConfigType
 }
 
 /**
@@ -27,7 +23,7 @@ GUILD_MEMBERS (1 << 1)
   - GUILD_MEMBER_UPDATE    // 当成员资料变更时
   - GUILD_MEMBER_REMOVE    // 当成员被移除时
  */
-export const GUILD_MEMBERS = () => {
+export const GUILD_MEMBERS = (cfg: BotConfigType, robot: BotType) => {
   /*监听新人事件*/
   ws.on(AvailableIntentsEventsEnum.GUILD_MEMBERS, async (e: Messagetype) => {
     /* 分配 */

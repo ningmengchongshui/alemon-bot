@@ -1,12 +1,10 @@
 import { EventEmitter } from 'ws'
 import { typeMessage } from 'alemon'
-import { EType, EventType, Messagetype, BotConfigType } from 'alemon'
+import { EType, EventType, Messagetype, BotConfigType, BotType } from 'alemon'
 
 declare global {
   //连接对象
   var ws: EventEmitter
-  //机器人配置
-  var cfg: BotConfigType
 }
 
 /**
@@ -35,7 +33,7 @@ declare global {
     - OPEN_FORUM_REPLY_CREATE      // 当用户回复评论时
     - OPEN_FORUM_REPLY_DELETE      // 当用户删除评论时
    */
-export const OPEN_FORUMS_EVENT = () => {
+export const OPEN_FORUMS_EVENT = (cfg: BotConfigType, robot: BotType) => {
   ws.on('OPEN_FORUMS_EVENT', async (e: Messagetype) => {
     /* 事件匹配 */
 

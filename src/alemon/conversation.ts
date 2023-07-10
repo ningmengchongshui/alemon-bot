@@ -1,5 +1,5 @@
 import { SessionEvents } from 'qq-guild-bot'
-import { BotType, cmdInit } from 'alemon'
+import { cmdInit, BotConfigType } from 'alemon'
 /* 监听消息 */
 import { GUILDS } from './message/GUILDS.js'
 import { GUILD_MEMBERS } from './message/GUILD_MEMBERS.js'
@@ -12,37 +12,32 @@ import { INTERACTION } from './message/INTERACTION.js'
 import { MESSAGE_AUDIT } from './message/MESSAGE_AUDIT.js'
 import { AUDIO_ACTION } from './message/AUDIO_ACTION.js'
 import { FORUMS_EVENT } from './message/FORUMS_EVENT.js'
-
-declare global {
-  //机器人信息
-  var robot: BotType
-}
 /**
  * ws.on方法可以监听机器人所在频道的所有事件
  * 根据其e.eventType，判断出事件的具体类型
  */
-export const createConversation = () => {
+export const createConversation = (cfg: BotConfigType) => {
   /** 准备 */
   ws.on(SessionEvents.READY, async one => {
     if (cfg.sandbox) console.info('[READY]', one)
     /* 记录机器人信息 */
-    global.robot = one.msg
+    const robot = one.msg
     /* 初始化指令 */
     cmdInit()
     /* 基础权限 */
-    GUILDS() //机器人进出频道消息
-    GUILD_MEMBERS() //成员频道进出变动消息
-    DIRECT_MESSAGE() //私聊会话消息
-    PUBLIC_GUILD_MESSAGES() //频道会话消息（公域）
+    GUILDS(cfg, robot) //机器人进出频道消息
+    GUILD_MEMBERS(cfg, robot) //成员频道进出变动消息
+    DIRECT_MESSAGE(cfg, robot) //私聊会话消息
+    PUBLIC_GUILD_MESSAGES(cfg, robot) //频道会话消息（公域）
 
     /* 需申请权限 */
-    GUILD_MESSAGES() //频道会话消息（私域）
-    FORUMS_EVENT() //论坛消息（私域）
-    OPEN_FORUMS_EVENT() //论坛消息（公域）//
-    GUILD_MESSAGE_REACTIONS() //频道表情点击会话消息
-    INTERACTION() //互动事件监听
-    MESSAGE_AUDIT() //审核事件监听
-    AUDIO_ACTION() //音频事件
+    GUILD_MESSAGES(cfg, robot) //频道会话消息（私域）
+    FORUMS_EVENT(cfg, robot) //论坛消息（私域）
+    OPEN_FORUMS_EVENT(cfg, robot) //论坛消息（公域）//
+    GUILD_MESSAGE_REACTIONS(cfg, robot) //频道表情点击会话消息
+    INTERACTION(cfg, robot) //互动事件监听
+    MESSAGE_AUDIT(cfg, robot) //审核事件监听
+    AUDIO_ACTION(cfg, robot) //音频事件
     console.info('[READY]', ` 欢迎回来 ${robot.user.username}`)
   })
 
