@@ -17,7 +17,6 @@ declare global {
 let conversation: EventEmitter | null = null
 
 // 导出声明
-export * from 'alemon/types'
 export * from 'qq-guild-bot'
 export function createClient(cfg) {
   return {
