@@ -16,13 +16,13 @@ import { getBotConfig } from './config'
  * ws.on方法可以监听机器人所在频道的所有事件
  * 根据其e.eventType，判断出事件的具体类型
  */
-export const createConversation = () => {
+export const createConversation = ws => {
   /** 准备 */
-  ws.on(SessionEvents.READY, async one => {
+  ws.on(SessionEvents.READY, async bot => {
     const sandbox = getBotConfig('sandbox')
-    if (sandbox) console.info('[READY]', one)
+    if (sandbox) console.info('[READY]', bot)
     /* 记录机器人信息 */
-    const robot = one.msg
+    const robot = bot.msg
     /* 基础权限 */
     //机器人进出频道消息
     ws.on(AvailableIntentsEventsEnum.GUILDS, GUILDS)
@@ -102,5 +102,4 @@ export const createConversation = () => {
       console.info('[EVENT_WS][DISCONNECT]', one)
     }
   })
-  return ws
 }

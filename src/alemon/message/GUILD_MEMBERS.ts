@@ -10,7 +10,7 @@ import { getChannels } from '../clientapi.js'
 
 declare global {
   //接口对象
-  var client: IOpenAPI
+  var clientApi: IOpenAPI
 }
 
 /**
@@ -132,7 +132,7 @@ export const GUILD_MEMBERS = async (e: Messagetype) => {
       return false
     }
     const options = typeof msg === 'object' && !obj ? msg : obj
-    return await client.messageApi
+    return await clientApi.messageApi
       .postMessage(channel.id, {
         content,
         ...options

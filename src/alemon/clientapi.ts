@@ -17,7 +17,7 @@ import { IGuild, IChannel, IMember } from 'qq-guild-bot'
  * @returns
  */
 export const getGuildList = async (): Promise<boolean | IGuild[]> => {
-  const data = await client.meApi
+  const data = await clientApi.meApi
     .meGuilds()
     .then(res => {
       const { data } = res
@@ -43,7 +43,7 @@ max_members	number	最大成员数
 description	string	描述
  */
 export const getGuildMsg = async (guildId: string): Promise<boolean | IGuild> => {
-  const data = await client.guildApi
+  const data = await clientApi.guildApi
     .guild(guildId)
     .then(res => {
       const { data } = res
@@ -77,7 +77,7 @@ parent_id	string	分组 ID
 owner_id	string	创建人 ID
  */
 export const getChannels = async (guildId: string): Promise<boolean | IChannel[]> => {
-  const data = await client.channelApi
+  const data = await clientApi.channelApi
     .channels(guildId)
     .then(res => {
       const { data } = res
@@ -103,7 +103,7 @@ parent_id	string	分组 ID
 owner_id	string	创建人 ID
  */
 export const getChannel = async (channelId: string): Promise<boolean | IChannel> => {
-  const data = await client.channelApi
+  const data = await clientApi.channelApi
     .channel(channelId)
     .then(res => {
       const { data } = res
@@ -146,7 +146,7 @@ export const getGuildMemberMsg = async (
   guildId: string,
   userId: string
 ): Promise<boolean | IMember> => {
-  const data = await client.guildApi
+  const data = await clientApi.guildApi
     .guildMember(guildId, userId)
     .then(res => {
       const { data } = res
@@ -200,7 +200,7 @@ export const deleteMsg = async (
   messageID: string,
   hideTip?: boolean
 ): Promise<any> => {
-  const data = await client.messageApi
+  const data = await clientApi.messageApi
     .deleteMessage(channelID, messageID, hideTip)
     .then(res => {
       const { data } = res

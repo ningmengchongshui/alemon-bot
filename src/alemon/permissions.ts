@@ -7,7 +7,7 @@ import { not_permissions, getPermissionsFromValue } from 'alemon'
  */
 export async function channewlPermissions(channel_id: any, id: any) {
   /* 自身机器人权限检测 */
-  const authority: any = await client.channelPermissionsApi
+  const authority: any = await clientApi.channelPermissionsApi
     .channelPermissions(channel_id, id)
     .catch(err => {
       console.log(err)

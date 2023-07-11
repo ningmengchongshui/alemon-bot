@@ -6,7 +6,7 @@ import { sendImage, postImage } from '../alemonapi.js'
 
 declare global {
   //接口对象
-  var client: IOpenAPI
+  var clientApi: IOpenAPI
 }
 
 /**
@@ -131,7 +131,7 @@ async function directMessage(e: Messagetype) {
         return false
       }
     }
-    return await client.directMessageApi
+    return await clientApi.directMessageApi
       .postDirectMessage(e.msg.guild_id, {
         msg_id: e.msg.id,
         content,

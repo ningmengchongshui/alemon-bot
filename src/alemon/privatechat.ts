@@ -14,7 +14,7 @@ export const Private = async (
   msg?: string | object | Array<string> | Buffer,
   obj?: object | Buffer
 ): Promise<boolean> => {
-  const postSessionRes: any = await client.directMessageApi
+  const postSessionRes: any = await clientApi.directMessageApi
     .createDirectMessage({
       source_guild_id: m.guild_id,
       recipient_id: m.author.id
@@ -75,7 +75,7 @@ export const Private = async (
       return false
     }
   }
-  return await client.directMessageApi
+  return await clientApi.directMessageApi
     .postDirectMessage(guild_id, {
       msg_id: m.id,
       content,

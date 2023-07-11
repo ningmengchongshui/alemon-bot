@@ -9,7 +9,7 @@ import { getBotConfig } from '../config.js'
 
 declare global {
   //接口对象
-  var client: IOpenAPI
+  var clientApi: IOpenAPI
 }
 
 /**
@@ -35,7 +35,7 @@ export const guildMessges = async (e: Messagetype) => {
   /**
    * 获得频道信息
    */
-  const channeldata = await client.channelApi
+  const channeldata = await clientApi.channelApi
     .channel(e.msg.channel_id)
     .then(res => {
       const { data } = res
@@ -139,7 +139,7 @@ export const guildMessges = async (e: Messagetype) => {
       }
     }
     const options = typeof msg === 'object' && !obj ? msg : obj
-    return await client.messageApi
+    return await clientApi.messageApi
       .postMessage(e.msg.channel_id, {
         msg_id: e.msg.id,
         content,
@@ -157,7 +157,7 @@ export const guildMessges = async (e: Messagetype) => {
    * @param boj 表情对象
    */
   e.deleteEmoji = async (boj: ReactionObj): Promise<boolean> => {
-    return await client.reactionApi
+    return await clientApi.reactionApi
       .deleteReaction(e.msg.channel_id, boj)
       .then(() => true)
       .catch((err: any) => {
@@ -172,7 +172,7 @@ export const guildMessges = async (e: Messagetype) => {
    * @returns
    */
   e.postEmoji = async (boj: ReactionObj): Promise<boolean> => {
-    return await client.reactionApi
+    return await clientApi.reactionApi
       .postReaction(e.msg.channel_id, boj)
       .then(() => true)
       .catch((err: any) => {
