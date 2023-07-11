@@ -1,5 +1,5 @@
-import { MsgType, BotConfigType } from 'alemon'
-
+import { MsgType } from 'alemon'
+// 非引用依赖
 import { postImage } from './alemonapi.js'
 
 /**
@@ -10,7 +10,6 @@ import { postImage } from './alemonapi.js'
  * @returns
  */
 export const Private = async (
-  cfg: BotConfigType,
   m: MsgType,
   msg?: string | object | Array<string> | Buffer,
   obj?: object | Buffer
@@ -37,20 +36,13 @@ export const Private = async (
    */
   if (Buffer.isBuffer(msg)) {
     try {
-      return await postImage(
-        {
-          id: m.guild_id,
-          msg_id: m.id, //消息id, 必须
-          file_image: msg, //buffer
-          content: '',
-          isGroup: true
-        },
-        {
-          appID: cfg.appID,
-          token: cfg.token,
-          sandbox: cfg.sandbox
-        }
-      )
+      return await postImage({
+        id: m.guild_id,
+        msg_id: m.id, //消息id, 必须
+        file_image: msg, //buffer
+        content: '',
+        isGroup: true
+      })
         .then(() => true)
         .catch((err: any) => {
           console.error(err)
@@ -66,20 +58,13 @@ export const Private = async (
   if (Buffer.isBuffer(obj)) {
     try {
       //tudo
-      return await postImage(
-        {
-          id: m.guild_id,
-          msg_id: m.id, //消息id, 必须
-          file_image: obj, //buffer
-          content: '',
-          isGroup: true
-        },
-        {
-          appID: cfg.appID,
-          token: cfg.token,
-          sandbox: cfg.sandbox
-        }
-      )
+      return await postImage({
+        id: m.guild_id,
+        msg_id: m.id, //消息id, 必须
+        file_image: obj, //buffer
+        content: '',
+        isGroup: true
+      })
         .then(() => true)
         .catch((err: any) => {
           console.error(err)

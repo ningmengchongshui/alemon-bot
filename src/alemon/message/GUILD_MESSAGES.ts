@@ -1,15 +1,8 @@
-import { EventEmitter } from 'ws'
-import { AvailableIntentsEventsEnum } from 'qq-guild-bot'
 import { typeMessage } from 'alemon'
-import { EventType, EType, Messagetype, BotConfigType, BotType } from 'alemon'
+import { EventType, EType, Messagetype } from 'alemon'
 
 /* 非依赖引用 */
 import { guildMessges } from './GUILD_MESSAGE.js'
-
-declare global {
-  //连接对象
-  var ws: EventEmitter
-}
 
 /** 
 GUILD_MESSAGES (1 << 9)    // 消息事件，仅 *私域* 机器人能够设置此 intents。
@@ -19,34 +12,32 @@ GUILD_MESSAGES (1 << 9)    // 消息事件，仅 *私域* 机器人能够设置�
   内容与 AT_MESSAGE_CREATE 相同
   - MESSAGE_DELETE         // 删除（撤回）消息事件
  * */
-export const GUILD_MESSAGES = (cfg: BotConfigType, robot: BotType) => {
-  ws.on(AvailableIntentsEventsEnum.GUILD_MESSAGES, async (e: Messagetype) => {
-    /* 是私域 */
-    e.isPrivate = true
-    /* 撤回消息 */
-    if (new RegExp(/DELETE$/).test(e.eventType)) {
-      e.event = EType.MESSAGES
-      e.eventType = EventType.DELETE
-      e.isRecall = true
-      //只匹配类型
-      await typeMessage(e)
-        .then(() => {
-          console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
-          return true
-        })
-        .catch(err => {
-          console.log(err)
-          console.info(`\n[${e.event}] [${e.eventType}]\n${false}`)
-          return false
-        })
-      return
-    }
-    /* 测回消息 */
-    e.isRecall = false
-    /* 消息方法 */
-    guildMessges(cfg, e).catch((err: any) => {
-      console.error(err)
-      return false
-    })
+export const GUILD_MESSAGES = async (e: Messagetype) => {
+  /* 是私域 */
+  e.isPrivate = true
+  /* 撤回消息 */
+  if (new RegExp(/DELETE$/).test(e.eventType)) {
+    e.event = EType.MESSAGES
+    e.eventType = EventType.DELETE
+    e.isRecall = true
+    //只匹配类型
+    await typeMessage(e)
+      .then(() => {
+        console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+        return true
+      })
+      .catch(err => {
+        console.log(err)
+        console.info(`\n[${e.event}] [${e.eventType}]\n${false}`)
+        return false
+      })
+    return
+  }
+  /* 测回消息 */
+  e.isRecall = false
+  /* 消息方法 */
+  guildMessges(e).catch((err: any) => {
+    console.error(err)
+    return false
   })
 }

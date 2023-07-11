@@ -1,11 +1,5 @@
-import { EventEmitter } from 'ws'
 import { typeMessage } from 'alemon'
-import { EType, EventType, Messagetype, BotConfigType, BotType } from 'alemon'
-
-declare global {
-  //连接对象
-  var ws: EventEmitter
-}
+import { EType, EventType, Messagetype } from 'alemon'
 
 /**
  * ***********
@@ -33,39 +27,37 @@ declare global {
     - OPEN_FORUM_REPLY_CREATE      // 当用户回复评论时
     - OPEN_FORUM_REPLY_DELETE      // 当用户删除评论时
    */
-export const OPEN_FORUMS_EVENT = (cfg: BotConfigType, robot: BotType) => {
-  ws.on('OPEN_FORUMS_EVENT', async (e: Messagetype) => {
-    /* 事件匹配 */
+export const OPEN_FORUMS_EVENT = async (e: Messagetype) => {
+  /* 事件匹配 */
 
-    if (new RegExp(/^OPEN_FORUM_THREAD/).test(e.eventType)) {
-      e.event = EType.FORUMS_THREAD
-    } else if (new RegExp(/^OPEN_FORUM_POST/).test(e.eventType)) {
-      e.event = EType.FORUMS_POST
-    } else {
-      e.event = EType.FORUMS_REPLY
-    }
+  if (new RegExp(/^OPEN_FORUM_THREAD/).test(e.eventType)) {
+    e.event = EType.FORUMS_THREAD
+  } else if (new RegExp(/^OPEN_FORUM_POST/).test(e.eventType)) {
+    e.event = EType.FORUMS_POST
+  } else {
+    e.event = EType.FORUMS_REPLY
+  }
 
-    if (new RegExp(/CREATE$/).test(e.eventType)) {
-      e.eventType = EventType.CREATE
-    } else if (new RegExp(/UPDATE$/).test(e.eventType)) {
-      e.eventType = EventType.UPDATE
-    } else {
-      e.eventType = EventType.DELETE
-    }
+  if (new RegExp(/CREATE$/).test(e.eventType)) {
+    e.eventType = EventType.CREATE
+  } else if (new RegExp(/UPDATE$/).test(e.eventType)) {
+    e.eventType = EventType.UPDATE
+  } else {
+    e.eventType = EventType.DELETE
+  }
 
-    //是公域
-    e.isPrivate = false
+  //是公域
+  e.isPrivate = false
 
-    //只匹配类型
-    await typeMessage(e)
-      .then(() => {
-        console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
-        return true
-      })
-      .catch(err => {
-        console.log(err)
-        console.info(`\n[${e.event}] [${e.eventType}]\n${false}`)
-        return false
-      })
-  })
+  //只匹配类型
+  await typeMessage(e)
+    .then(() => {
+      console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+      return true
+    })
+    .catch(err => {
+      console.log(err)
+      console.info(`\n[${e.event}] [${e.eventType}]\n${false}`)
+      return false
+    })
 }

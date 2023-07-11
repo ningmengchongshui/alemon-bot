@@ -1,5 +1,4 @@
-import { SessionEvents } from 'qq-guild-bot'
-import { cmdInit, BotConfigType } from 'alemon'
+import { SessionEvents, AvailableIntentsEventsEnum } from 'qq-guild-bot'
 /* 监听消息 */
 import { GUILDS } from './message/GUILDS.js'
 import { GUILD_MEMBERS } from './message/GUILD_MEMBERS.js'
@@ -12,32 +11,50 @@ import { INTERACTION } from './message/INTERACTION.js'
 import { MESSAGE_AUDIT } from './message/MESSAGE_AUDIT.js'
 import { AUDIO_ACTION } from './message/AUDIO_ACTION.js'
 import { FORUMS_EVENT } from './message/FORUMS_EVENT.js'
+import { getBotConfig } from './config'
 /**
  * ws.on方法可以监听机器人所在频道的所有事件
  * 根据其e.eventType，判断出事件的具体类型
  */
-export const createConversation = (cfg: BotConfigType) => {
+export const createConversation = () => {
   /** 准备 */
   ws.on(SessionEvents.READY, async one => {
-    if (cfg.sandbox) console.info('[READY]', one)
+    const sandbox = getBotConfig('sandbox')
+    if (sandbox) console.info('[READY]', one)
     /* 记录机器人信息 */
     const robot = one.msg
-    /* 初始化指令 */
-    cmdInit()
     /* 基础权限 */
-    GUILDS(cfg, robot) //机器人进出频道消息
-    GUILD_MEMBERS(cfg, robot) //成员频道进出变动消息
-    DIRECT_MESSAGE(cfg, robot) //私聊会话消息
-    PUBLIC_GUILD_MESSAGES(cfg, robot) //频道会话消息（公域）
+    //机器人进出频道消息
+    ws.on(AvailableIntentsEventsEnum.GUILDS, GUILDS)
+
+    //成员频道进出变动消息
+    ws.on(AvailableIntentsEventsEnum.GUILD_MEMBERS, GUILD_MEMBERS)
+
+    //私聊会话消息
+    ws.on(AvailableIntentsEventsEnum.DIRECT_MESSAGE, DIRECT_MESSAGE)
+
+    //频道会话消息（公域）
+    ws.on(AvailableIntentsEventsEnum.PUBLIC_GUILD_MESSAGES, PUBLIC_GUILD_MESSAGES)
 
     /* 需申请权限 */
-    GUILD_MESSAGES(cfg, robot) //频道会话消息（私域）
-    FORUMS_EVENT(cfg, robot) //论坛消息（私域）
-    OPEN_FORUMS_EVENT(cfg, robot) //论坛消息（公域）//
-    GUILD_MESSAGE_REACTIONS(cfg, robot) //频道表情点击会话消息
-    INTERACTION(cfg, robot) //互动事件监听
-    MESSAGE_AUDIT(cfg, robot) //审核事件监听
-    AUDIO_ACTION(cfg, robot) //音频事件
+    //频道会话消息（私域）
+    ws.on(AvailableIntentsEventsEnum.GUILD_MESSAGES, GUILD_MESSAGES)
+
+    //论坛消息（私域）
+    ws.on(AvailableIntentsEventsEnum.FORUMS_EVENT, FORUMS_EVENT)
+
+    //论坛消息（公域）
+    ws.on('OPEN_FORUMS_EVENT', OPEN_FORUMS_EVENT)
+
+    //频道表情点击会话消息
+    ws.on(AvailableIntentsEventsEnum.GUILD_MESSAGE_REACTIONS, GUILD_MESSAGE_REACTIONS)
+
+    //互动事件监听
+    ws.on(AvailableIntentsEventsEnum.INTERACTION, INTERACTION)
+    ws.on(AvailableIntentsEventsEnum.MESSAGE_AUDIT, MESSAGE_AUDIT)
+
+    //审核事件监听
+    ws.on(AvailableIntentsEventsEnum.AUDIO_ACTION, AUDIO_ACTION)
     console.info('[READY]', ` 欢迎回来 ${robot.user.username}`)
   })
 
@@ -85,4 +102,5 @@ export const createConversation = (cfg: BotConfigType) => {
       console.info('[EVENT_WS][DISCONNECT]', one)
     }
   })
+  return ws
 }

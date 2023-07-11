@@ -1,17 +1,15 @@
 import { IOpenAPI, ReactionObj } from 'qq-guild-bot'
-import { EventEmitter } from 'ws'
 import { InstructionMatching } from 'alemon'
-import { BotConfigType, EType, EventType, Messagetype } from 'alemon'
+import { EType, EventType, Messagetype } from 'alemon'
 
 // 非依赖引用
 import { sendImage, postImage } from '../alemonapi.js'
 import { Private } from '../privatechat.js'
+import { getBotConfig } from '../config.js'
 
 declare global {
   //接口对象
   var client: IOpenAPI
-  //连接对象
-  var ws: EventEmitter
 }
 
 /**
@@ -20,7 +18,7 @@ declare global {
  * @returns
  */
 
-export const guildMessges = async (cfg: BotConfigType, e: Messagetype) => {
+export const guildMessges = async (e: Messagetype) => {
   /* 事件匹配 */
   e.event = EType.MESSAGES
   /* 类型匹配 */
@@ -53,10 +51,11 @@ export const guildMessges = async (cfg: BotConfigType, e: Messagetype) => {
   /**
    * 主人问题  todo
    */
+  const masterID = getBotConfig('masterID')
 
   e.isMaster = false
 
-  if (e.msg.author.id == cfg.masterID) {
+  if (e.msg.author.id == masterID) {
     e.isMaster = true
   }
 
@@ -71,20 +70,13 @@ export const guildMessges = async (cfg: BotConfigType, e: Messagetype) => {
    */
   e.sendImage = async (file_image: any, content?: string): Promise<boolean> => {
     if (!e.isGroup) return false
-    return await sendImage(
-      {
-        id: e.msg.channel_id,
-        msg_id: e.msg.id, //消息id, 必须
-        file_image, //本地图片的路径
-        content,
-        isGroup: e.isGroup
-      },
-      {
-        appID: cfg.appID,
-        token: cfg.token,
-        sandbox: cfg.sandbox
-      }
-    )
+    return await sendImage({
+      id: e.msg.channel_id,
+      msg_id: e.msg.id, //消息id, 必须
+      file_image, //本地图片的路径
+      content,
+      isGroup: e.isGroup
+    })
       .then(() => true)
       .catch((err: any) => {
         console.error(err)
@@ -100,20 +92,13 @@ export const guildMessges = async (cfg: BotConfigType, e: Messagetype) => {
    */
   e.postImage = async (file_image: string | Buffer | URL, content?: string): Promise<boolean> => {
     if (!e.isGroup) return false
-    return await postImage(
-      {
-        id: e.msg.channel_id,
-        msg_id: e.msg.id, //消息id, 必须
-        file_image, //本地图片的路径
-        content,
-        isGroup: e.isGroup
-      },
-      {
-        appID: cfg.appID,
-        token: cfg.token,
-        sandbox: cfg.sandbox
-      }
-    )
+    return await postImage({
+      id: e.msg.channel_id,
+      msg_id: e.msg.id, //消息id, 必须
+      file_image, //本地图片的路径
+      content,
+      isGroup: e.isGroup
+    })
       .then(() => true)
       .catch((err: any) => {
         console.error(err)
@@ -235,7 +220,7 @@ export const guildMessges = async (cfg: BotConfigType, e: Messagetype) => {
     msg?: string | object | Array<string> | Buffer,
     obj?: object | Buffer
   ): Promise<boolean> => {
-    return await Private(cfg, e.msg, msg, obj)
+    return await Private(e.msg, msg, obj)
       .then(res => {
         return res
       })

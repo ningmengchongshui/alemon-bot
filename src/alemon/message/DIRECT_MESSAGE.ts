@@ -1,17 +1,12 @@
 import { IOpenAPI } from 'qq-guild-bot'
-import { EventEmitter } from 'ws'
-import { AvailableIntentsEventsEnum } from 'qq-guild-bot'
 import { InstructionMatching, typeMessage } from 'alemon'
-import { BotType, EventType, EType, Messagetype, BotConfigType } from 'alemon'
-
+import { EventType, EType, Messagetype } from 'alemon'
 // 非依赖引用
 import { sendImage, postImage } from '../alemonapi.js'
 
 declare global {
   //接口对象
   var client: IOpenAPI
-  //连接对象
-  var ws: EventEmitter
 }
 
 /**
@@ -19,39 +14,37 @@ DIRECT_MESSAGE (1 << 12)
   - DIRECT_MESSAGE_CREATE   // 当收到用户发给机器人的私信消息时
   - DIRECT_MESSAGE_DELETE   // 删除（撤回）消息事件
  */
-export const DIRECT_MESSAGE = (cfg: BotConfigType, robot: BotType) => {
-  ws.on(AvailableIntentsEventsEnum.DIRECT_MESSAGE, async (e: Messagetype) => {
-    /* 撤回事件 */
-    if (new RegExp(/^DIRECT_MESSAGE_DELETE$/).test(e.eventType)) {
-      e.eventType = EventType.DELETE
-      e.isRecall = true
-      //只匹配类型
-      await typeMessage(e)
-        .then(() => {
-          console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
-          return true
-        })
-        .catch(err => {
-          console.log(err)
-          console.info(`\n[${e.event}] [${e.eventType}]\n${false}`)
-          return false
-        })
-      return
-    }
-    // 优化接口
-    await directMessage(cfg, e).catch(err => {
-      console.log(err)
-      return
-    })
-    console.info(
-      `\n[${e.msg.author.username}][${e.msg.author.id}][${e.isGroup}] ${
-        e.msg.content ? e.msg.content : ''
-      }`
-    )
+export const DIRECT_MESSAGE = async (e: Messagetype) => {
+  /* 撤回事件 */
+  if (new RegExp(/^DIRECT_MESSAGE_DELETE$/).test(e.eventType)) {
+    e.eventType = EventType.DELETE
+    e.isRecall = true
+    //只匹配类型
+    await typeMessage(e)
+      .then(() => {
+        console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+        return true
+      })
+      .catch(err => {
+        console.log(err)
+        console.info(`\n[${e.event}] [${e.eventType}]\n${false}`)
+        return false
+      })
+    return
+  }
+  // 优化接口
+  await directMessage(e).catch(err => {
+    console.log(err)
+    return
   })
+  console.info(
+    `\n[${e.msg.author.username}][${e.msg.author.id}][${e.isGroup}] ${
+      e.msg.content ? e.msg.content : ''
+    }`
+  )
 }
 
-async function directMessage(cfg: BotConfigType, e: Messagetype) {
+async function directMessage(e: Messagetype) {
   /* 事件匹配 */
   e.event = EType.MESSAGES
   e.eventType = EventType.CREATE
@@ -77,20 +70,13 @@ async function directMessage(cfg: BotConfigType, e: Messagetype) {
    * @returns
    */
   e.sendImage = async (file_image: string | Buffer | URL, content?: string): Promise<boolean> => {
-    return await sendImage(
-      {
-        id: e.msg.guild_id,
-        msg_id: e.msg.id, //消息id, 必须
-        file_image, //buffer
-        content,
-        isGroup: e.isGroup
-      },
-      {
-        appID: cfg.appID,
-        token: cfg.token,
-        sandbox: cfg.sandbox
-      }
-    )
+    return await sendImage({
+      id: e.msg.guild_id,
+      msg_id: e.msg.id, //消息id, 必须
+      file_image, //buffer
+      content,
+      isGroup: e.isGroup
+    })
       .then(() => true)
       .catch((err: any) => {
         console.error(err)
@@ -105,20 +91,13 @@ async function directMessage(cfg: BotConfigType, e: Messagetype) {
    * @returns
    */
   e.postImage = async (file_image: string | Buffer | URL, content?: string): Promise<boolean> => {
-    return await postImage(
-      {
-        id: e.msg.guild_id,
-        msg_id: e.msg.id, //消息id, 必须
-        file_image, //buffer
-        content,
-        isGroup: e.isGroup
-      },
-      {
-        appID: cfg.appID,
-        token: cfg.token,
-        sandbox: cfg.sandbox
-      }
-    )
+    return await postImage({
+      id: e.msg.guild_id,
+      msg_id: e.msg.id, //消息id, 必须
+      file_image, //buffer
+      content,
+      isGroup: e.isGroup
+    })
       .then(() => true)
       .catch((err: any) => {
         console.error(err)

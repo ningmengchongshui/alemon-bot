@@ -1,11 +1,6 @@
-import { EventEmitter } from 'ws'
-import { AvailableIntentsEventsEnum } from 'qq-guild-bot'
 import { EventType, typeMessage } from 'alemon'
-import { EType, Messagetype, BotConfigType, BotType } from 'alemon'
+import { EType, Messagetype } from 'alemon'
 
-declare global {
-  var ws: EventEmitter
-}
 /**
  * ***********
  * THREAD  主题  FORUMS_THREAD
@@ -28,38 +23,35 @@ FORUMS_EVENT (1 << 28)  // 论坛事件，仅 *私域* 机器人能够设置此 
 
   - FORUM_PUBLISH_AUDIT_RESULT      // 当用户发表审核通过时
  */
-export const FORUMS_EVENT = (cfg: BotConfigType, robot: BotType) => {
-  ws.on(AvailableIntentsEventsEnum.FORUMS_EVENT, async (e: Messagetype) => {
-    /* 事件匹配 */
+export const FORUMS_EVENT = async (e: Messagetype) => {
+  /* 事件匹配 */
+  if (new RegExp(/^FORUM_THREAD/).test(e.eventType)) {
+    e.event = EType.FORUMS_THREAD
+  } else if (new RegExp(/^FORUM_POST/).test(e.eventType)) {
+    e.event = EType.FORUMS_POST
+  } else {
+    e.event = EType.FORUMS_REPLY
+  }
 
-    if (new RegExp(/^FORUM_THREAD/).test(e.eventType)) {
-      e.event = EType.FORUMS_THREAD
-    } else if (new RegExp(/^FORUM_POST/).test(e.eventType)) {
-      e.event = EType.FORUMS_POST
-    } else {
-      e.event = EType.FORUMS_REPLY
-    }
+  if (new RegExp(/CREATE$/).test(e.eventType)) {
+    e.eventType = EventType.CREATE
+  } else if (new RegExp(/UPDATE$/).test(e.eventType)) {
+    e.eventType = EventType.UPDATE
+  } else {
+    e.eventType = EventType.DELETE
+  }
 
-    if (new RegExp(/CREATE$/).test(e.eventType)) {
-      e.eventType = EventType.CREATE
-    } else if (new RegExp(/UPDATE$/).test(e.eventType)) {
-      e.eventType = EventType.UPDATE
-    } else {
-      e.eventType = EventType.DELETE
-    }
-
-    //是私域
-    e.isPrivate = true
-    //只匹配类型
-    await typeMessage(e)
-      .then(() => {
-        console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
-        return true
-      })
-      .catch(err => {
-        console.log(err)
-        console.info(`\n[${e.event}] [${e.eventType}]\n${false}`)
-        return false
-      })
-  })
+  //是私域
+  e.isPrivate = true
+  //只匹配类型
+  await typeMessage(e)
+    .then(() => {
+      console.info(`\n[${e.event}] [${e.eventType}]\n${true}`)
+      return true
+    })
+    .catch(err => {
+      console.log(err)
+      console.info(`\n[${e.event}] [${e.eventType}]\n${false}`)
+      return false
+    })
 }

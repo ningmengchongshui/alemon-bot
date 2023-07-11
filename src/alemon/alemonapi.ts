@@ -3,6 +3,8 @@ import { Readable } from 'node:stream'
 import FormData from 'form-data'
 import axios from 'axios'
 
+import { getBotConfig } from './config'
+
 /** 环境配置 */
 const Acf = {
   sandbox_api: 'https://sandbox.api.sgroup.qq.com',
@@ -27,21 +29,17 @@ function getUrl(sandbox: boolean): string {
  * @param isGroup 是否是群聊
  * @returns
  */
-export async function sendImage(
-  message: {
-    id: string
-    msg_id: string
-    file_image: string | Buffer | URL
-    isGroup: boolean
-    content?: string
-  },
-  cfg: {
-    appID: string
-    token: string
-    sandbox: boolean
-  }
-): Promise<any> {
-  const urlbase = getUrl(cfg.sandbox)
+export async function sendImage(message: {
+  id: string
+  msg_id: string
+  file_image: string | Buffer | URL
+  isGroup: boolean
+  content?: string
+}): Promise<any> {
+  const appID = getBotConfig('appID')
+  const token = getBotConfig('token')
+  const sandbox = getBotConfig('sandbox')
+  const urlbase = getUrl(sandbox)
 
   /** 读取本地图片地址 */
   const picData = createReadStream(message.file_image)
@@ -65,7 +63,7 @@ export async function sendImage(
     url,
     headers: {
       'Content-Type': formdata.getHeaders()['content-type'],
-      'Authorization': `Bot ${cfg.appID}.${cfg.token}`
+      'Authorization': `Bot ${appID}.${token}`
     },
     data: formdata
   }).catch(err => err)
@@ -78,22 +76,18 @@ export async function sendImage(
  * @param isGroup 是否是群聊
  * @returns
  */
-export async function postImage(
-  message: {
-    id: string
-    msg_id: string
-    file_image: string | Buffer | URL
-    isGroup: boolean
-    content?: string
-  },
-  cfg: {
-    appID: string
-    token: string
-    sandbox: boolean
-  }
-): Promise<any> {
+export async function postImage(message: {
+  id: string
+  msg_id: string
+  file_image: string | Buffer | URL
+  isGroup: boolean
+  content?: string
+}): Promise<any> {
+  const appID = getBotConfig('appID')
+  const token = getBotConfig('token')
+  const sandbox = getBotConfig('sandbox')
   // 得到环境
-  const urlbase = getUrl(cfg.sandbox)
+  const urlbase = getUrl(sandbox)
   /* 创建可读流对象 */
   const picData = new Readable()
   picData.push(message.file_image)
@@ -121,7 +115,7 @@ export async function postImage(
     url,
     headers: {
       'Content-Type': `multipart/form-data; boundary=${formdata.getBoundary()}`,
-      'Authorization': `Bot ${cfg.appID}.${cfg.token}`
+      'Authorization': `Bot ${appID}.${token}`
     },
     data: formdata
   }).catch(err => err)
