@@ -12,16 +12,7 @@
   font-size: 50px;
 }
 .cont-box {
-  border-radius: 15px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin-left: 40px;
-  margin-right: 40px;
-  padding: 5px 15px;
   overflow: hidden;
-  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15);
-  position: relative;
-  background: rgb(221 239 250 / 28%);
 }
 .help-group {
   color: #000000;
