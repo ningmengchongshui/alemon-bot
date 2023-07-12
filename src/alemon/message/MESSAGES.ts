@@ -2,8 +2,6 @@ import { Messagetype, EventType, EType, InstructionMatching } from 'alemon'
 /** sdk */
 import { BotEvent, MessageContentType, Client } from 'mys-villa'
 
-import { transferImage } from '../api.js'
-
 const ip = await Client.getIP()
 
 /**
@@ -71,10 +69,7 @@ export async function MESSAGES(event: BotEvent, val: number) {
         if (!uul) {
           return false
         }
-        const uri = await transferImage(villa_id, `http://${ip}:8080${uul}`)
-        if (uri) {
-          url = uri
-        }
+        url = `http://${ip}:8080${uul}`
         /** 直接发送图片 */
         return await Client.sendMessageTextUrl(villa_id, room_id, cmd_msg, url).catch(err => {
           console.log(err)
@@ -107,10 +102,7 @@ export async function MESSAGES(event: BotEvent, val: number) {
         if (!uul) {
           return false
         }
-        const uri = await transferImage(villa_id, `http://${ip}:8080${uul}`)
-        if (uri) {
-          url = uri
-        }
+        url = `http://${ip}:8080${uul}`
         if (entities.length == 0) {
           return await Client.sendMessageTextUrl(villa_id, room_id, content, url).catch(err => {
             console.log(err)
