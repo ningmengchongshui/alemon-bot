@@ -1,11 +1,11 @@
 #### 安装机器人
 
-alemon-Bot [`☞阿柠檬机器人`](https://github.com/ningmengchongshui/alemont-bot)
+alemon-Bot [`☞阿柠檬机器人`](https://github.com/ningmengchongshui/alemont)
 
 #### 根目录执行
 
 ```
-git clone --depth=1 -b plugin https://gitee.com/ningmengchongshui/alemon-bot.git ./plugins/alemon-plugin/
+git clone --depth=1 -b plugin https://gitee.com/ningmengchongshui/alemon.git ./plugins/alemon-plugin/
 ```
 
 #### 开源协议
