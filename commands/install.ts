@@ -59,18 +59,14 @@ prompts([
     initial: 0,
   },
   {
-    type: "text",
+    type: "select",
     name: "isPlugin",
-    message: "Are you sure to install \n the alemon-plugin?(y/n) :",
-    initial: () => {
-      if (process.argv[4] == "n") {
-        return "n";
-      } else if (process.argv[4] == "y") {
-        return "y";
-      } else {
-        return "y";
-      }
-    },
+    message: "Do you want to install plugins ?",
+    choices: [
+      { title: "yes", value: "0" },
+      { title: "no", value: "1" },
+    ],
+    initial: 0,
   },
 ])
   .then(async ({ name, isPlugin, source }) => {
@@ -102,7 +98,7 @@ prompts([
       return;
     }
 
-    if (isPlugin != "n") {
+    if (isPlugin == "0") {
       try {
         await runCommand(
           "git",
