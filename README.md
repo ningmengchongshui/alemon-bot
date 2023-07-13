@@ -3,13 +3,13 @@
 拉取代码
 
 ```
-git clone --depth=1 -b mys https://gitee.com/ningmengchongshui/alemon-bot.git
+git clone --depth=1 -b mys https://gitee.com/ningmengchongshui/alemont.git
 ```
 
 安装依赖
 
 ```
-cd alemon-bot
+cd alemon
 npm install
 ```
 
@@ -32,7 +32,7 @@ npm run app
 根目录下执行安装测试工程插件
 
 ```
-git clone --depth=1 https://gitee.com/ningmengchongshui/alemon-plugin.git ./plugins/alemon-plugin/
+git clone --depth=1 -b plugin https://gitee.com/ningmengchongshui/alemon.git ./plugins/alemon-plugin/
 ```
 
 ## alemon-mys
@@ -47,9 +47,9 @@ git clone --depth=1 https://gitee.com/ningmengchongshui/alemon-plugin.git ./plug
 
 `alemon` 框架逻辑块
 
-点击了解 ☞[alemon 开发文档](http://ningmengchongshui.gitee.io/lemonade)
+点击了解 ☞[alemon 开发文档](http://ningmengchongshui.gitee.io/alemon)
 
-点击了解 ☞[alemon 核心源码](https://gitee.com/ningmengchongshui/alemon-bot/tree/core/)
+点击了解 ☞[alemon 核心源码](https://gitee.com/ningmengchongshui/alemon)
 
 ## 开源协议
 
