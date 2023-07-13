@@ -80,7 +80,7 @@ prompts([
     mkdirSync(dirPath);
     console.log(`\n`);
     const SourceMap = {
-      0: "main",
+      0: "template-qq",
       1: "mys",
     };
 
@@ -92,7 +92,7 @@ prompts([
           "--depth=1",
           "-b",
           SourceMap[source],
-          "https://gitee.com/ningmengchongshui/alemon-bot.git",
+          "https://gitee.com/ningmengchongshui/alemon.git",
           dirPath,
         ],
         { cwd: process.cwd() }
@@ -111,13 +111,13 @@ prompts([
             "--depth=1",
             "-b",
             "plugin",
-            "https://gitee.com/ningmengchongshui/alemon-bot.git",
+            "https://gitee.com/ningmengchongshui/alemon.git",
             `${dirPath}/plugins/alemon-plugin`,
           ],
           { cwd: process.cwd() }
         );
       } catch (error) {
-        console.log(`miao-Plugin installation failed!`);
+        console.log(`alemon-Plugin installation failed!`);
       }
     }
 
