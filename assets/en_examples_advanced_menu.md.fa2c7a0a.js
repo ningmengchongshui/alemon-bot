@@ -25,7 +25,7 @@ import{_ as s,o as n,c as a,V as e}from"./chunks/framework.ee7253e8.js";const y=
 <span class="line"><span style="color:#A6ACCD;">|-- .npignore       package push control</span></span>
 <span class="line"><span style="color:#A6ACCD;">|-- .npmrc package  management configuration</span></span>
 <span class="line"><span style="color:#A6ACCD;">|-- Package. json   project configuration</span></span>
-<span class="line"><span style="color:#A6ACCD;">|-- Tsconfig.ts     TS Configuration</span></span></code></pre></div><h2 id="alemon-core" tabindex="-1">Alemon-core <a class="header-anchor" href="#alemon-core" aria-label="Permalink to &quot;Alemon-core&quot;">​</a></h2><div class="language-"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki material-theme-palenight"><code><span class="line"><span style="color:#A6ACCD;">|-- lib/   engineering files</span></span>
+<span class="line"><span style="color:#A6ACCD;">|-- Tsconfig.ts     TS Configuration</span></span></code></pre></div><h2 id="alemon" tabindex="-1">Alemon <a class="header-anchor" href="#alemon" aria-label="Permalink to &quot;Alemon&quot;">​</a></h2><div class="language-"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki material-theme-palenight"><code><span class="line"><span style="color:#A6ACCD;">|-- lib/   engineering files</span></span>
 <span class="line"><span style="color:#A6ACCD;">    |-- api.js         special interface</span></span>
 <span class="line"><span style="color:#A6ACCD;">    |-- apps.js        application loading</span></span>
 <span class="line"><span style="color:#A6ACCD;">    |-- config.js      configuration management</span></span>

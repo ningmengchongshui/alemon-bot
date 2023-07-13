@@ -25,7 +25,7 @@ import{_ as s,o as n,c as a,V as l}from"./chunks/framework.ee7253e8.js";const m=
 <span class="line"><span style="color:#A6ACCD;">|-- .npmignore       包推送控制</span></span>
 <span class="line"><span style="color:#A6ACCD;">|-- .npmrc           包管理配置</span></span>
 <span class="line"><span style="color:#A6ACCD;">|-- package.json     项目配置</span></span>
-<span class="line"><span style="color:#A6ACCD;">|-- tsconfig.ts      TS配置</span></span></code></pre></div><h2 id="alemon-core" tabindex="-1">Alemon-core <a class="header-anchor" href="#alemon-core" aria-label="Permalink to &quot;Alemon-core&quot;">​</a></h2><div class="language-"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki material-theme-palenight"><code><span class="line"><span style="color:#A6ACCD;">|-- lib/   浏览器缓存</span></span>
+<span class="line"><span style="color:#A6ACCD;">|-- tsconfig.ts      TS配置</span></span></code></pre></div><h2 id="alemon" tabindex="-1">Alemon <a class="header-anchor" href="#alemon" aria-label="Permalink to &quot;Alemon&quot;">​</a></h2><div class="language-"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki material-theme-palenight"><code><span class="line"><span style="color:#A6ACCD;">|-- lib/   浏览器缓存</span></span>
 <span class="line"><span style="color:#A6ACCD;">    |-- api.js         特殊接口</span></span>
 <span class="line"><span style="color:#A6ACCD;">    |-- apps.js        应用加载</span></span>
 <span class="line"><span style="color:#A6ACCD;">    |-- config.js      配置管理</span></span>
