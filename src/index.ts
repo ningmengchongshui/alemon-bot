@@ -40,11 +40,6 @@ export async function createAlemon() {
     callBack,
     async () => {
       console.info('[HELLO] 欢迎使用Alemon-Mys')
-      console.info('[DOCS] http://ningmengchongshui.gitee.io/lemonade')
-      console.info('[CODE] https://github.com/ningmengchongshui/alemon-bot')
-      if (cfg.sandbox) {
-        console.info('[DOCS] https://webstatic.mihoyo.com/')
-      }
     }
   )
   const ip = await Client.getIP()
